@@ -46,7 +46,7 @@ This process implements alias resolution on the entity mentions. The results are
 File: `src/extract_candidate_relations.py`
 This process extracts candidate relationships, and store in `outputs/relations/candidate_relations_*.csv`.
 
-### 🎃 Final deliverable!
+## 🎃 Final deliverable!
 The current version is based on mock data. However, feel free to use them to build the pipeline, since the file formats will be the same.
 - For the next step - LLM validation and confidence scoring,
   Main file: `outputs/entity_resolution/resolved_entities_*.csv`, `outputs/relations/candidate_relations_*.csv`
