@@ -1,0 +1,8 @@
+source_id,source_type,raw_text,source_url,date,company_seed,source_type_cleaned,raw_text_cleaned,source_url_cleaned,date_cleaned,company_seed_cleaned,company_seed_invalid,company_seed_invalid_reason,row_invalid_reasons,row_valid_for_ner
+23,SEC,#NAME? filed a report.,https://example.com/bad1,2021-07,#NAME?,SEC,#NAME? filed a report.,https://example.com/bad1,2021-07,#NAME?,True,excel_error_token,excel_error_token,False
+24,USPTO,11-JUL appears in the assignee field.,https://example.com/bad2,2020-05,11-JUL,USPTO,11-JUL appears in the assignee field.,https://example.com/bad2,2020-05,11-JUL,True,date_like_token,date_like_token,False
+25,SEC,,https://example.com/bad3,2022-02,Unknown,SEC,,https://example.com/bad3,2022-02,Unknown,False,,missing_raw_text,False
+26,PUBMED,   ,https://example.com/bad4,2023-01,BlankCo,PUBMED,,https://example.com/bad4,2023-01,BlankCo,False,,missing_raw_text,False
+27,SEC,N/A entered into a collaboration.,https://example.com/bad5,2022-06,,SEC,N/A entered into a collaboration.,https://example.com/bad5,2022-06,,True,missing_company_seed,missing_company_seed,False
+28,USPTO,NULL filed patent with ???.,https://example.com/bad6,2021-09,,USPTO,NULL filed patent with ???.,https://example.com/bad6,2021-09,,True,missing_company_seed,missing_company_seed,False
+50,UNKNOWN,Omega Therapeutics acquired ExampleCo.,https://example.com/unknown1,2022-07,Omega Therapeutics,UNKNOWN,Omega Therapeutics acquired ExampleCo.,https://example.com/unknown1,2022-07,Omega Therapeutics,False,,unknown_source_type,False
