@@ -1,0 +1,61 @@
+source_id,source_type,raw_text,source_url,date,company_seed
+1,SEC,Pfizer acquired Seagen in 2023.,https://example.com/sec1,2023-01,Pfizer
+2,SEC,Merck entered into a license agreement with Moderna for mRNA technology.,https://example.com/sec2,2024-02,Merck
+3,USPTO,Regeneron and Sanofi jointly developed an antibody platform and co-filed a patent.,https://example.com/uspto1,2022-06,Regeneron
+4,PUBMED,CSL Behring collaborated with Takeda on plasma-derived therapy research.,https://example.com/pubmed1,2021-11,CSL Behring
+5,SEC,Bristol Myers Squibb purchased Karuna Therapeutics in a strategic acquisition.,https://example.com/sec3,2024-12,Bristol Myers Squibb
+6,USPTO,AbbVie filed patent with Genmab for a bispecific antibody invention.,https://example.com/uspto2,2020-09,AbbVie
+7,SEC,AstraZeneca partnered with Daiichi Sankyo to co-develop oncology therapies.,https://example.com/sec4,2023-08,AstraZeneca
+8,PUBMED,Novartis worked with Alnylam on RNA interference delivery systems.,https://example.com/pubmed2,2022-03,Novartis
+9,SEC,10X GENOMICS INC acquired a small diagnostics startup.,https://example.com/sec5,2024-03,10X Genomics
+10,SEC,10X GENOMICS BV entered into a collaboration with BioNTech.,https://example.com/sec6,2024-04,10X Genomics
+11,SEC,10X GENOMICS SWEDEN AB licensed imaging technology from NanoString.,https://example.com/sec7,2024-05,10X Genomics
+12,PUBMED,CSL Behring GmbH developed a plasma therapy alongside CSL Behring Inc.,https://example.com/pubmed3,2022-09,CSL Behring
+13,SEC,"Pfizer Inc. acquired Seagen, according to the filing.",https://example.com/sec8,2023-02,Pfizer
+14,SEC,PFIZER acquired SEAGEN in a merger transaction.,https://example.com/sec9,2023-03,Pfizer
+15,USPTO,"Regeneron Pharmaceuticals, Inc. and Sanofi co-assigned a patent family.",https://example.com/uspto3,2021-07,Regeneron
+16,PUBMED,BMS collaborated with 2seventy bio on cell therapy programs.,https://example.com/pubmed4,2023-06,Bristol Myers Squibb
+17,SEC,"  Moderna, Inc.   entered into a license agreement with Vertex Pharmaceuticals.  ",https://example.com/sec10,2023-10,Moderna
+18,SEC,"Gilead Sciences, Inc. acquired   CymaBay Therapeutics.",https://example.com/sec11,2024-01,Gilead Sciences
+19,USPTO,argenx SE co-filed a patent with Johnson & Johnson.,https://example.com/uspto4,2021-05,argenx
+20,PUBMED,bluebird bio partnered with Bristol-Myers Squibb in early studies.,https://example.com/pubmed5,2020-08,bluebird bio
+21,SEC,Sarepta Therapeutics merged with Example Rare Disease Co.,https://example.com/sec12,2022-04,Sarepta Therapeutics
+22,PUBMED,CRISPR Therapeutics collaborated with Vertex Pharmaceuticals on gene editing.,https://example.com/pubmed6,2022-10,CRISPR Therapeutics
+23,SEC,#NAME? filed a report.,https://example.com/bad1,2021-07,#NAME?
+24,USPTO,11-JUL appears in the assignee field.,https://example.com/bad2,2020-05,11-JUL
+25,SEC,,https://example.com/bad3,2022-02,Unknown
+26,PUBMED,   ,https://example.com/bad4,2023-01,BlankCo
+27,SEC,N/A entered into a collaboration.,https://example.com/bad5,2022-06,N/A
+28,USPTO,NULL filed patent with ???.,https://example.com/bad6,2021-09,NULL
+29,SEC,12345 acquired 67890.,https://example.com/bad7,2024-01,12345
+30,PUBMED,-- collaborated with @@##.,https://example.com/bad8,2020-03,--
+31,SEC,TBD entered into a licensing agreement.,https://example.com/bad9,2024-06,TBD
+32,USPTO,Example text with no company at all.,https://example.com/bad10,2021-12,NoCompany
+33,SEC,Pfizer acquired Seagen in 2023. The deal expanded Pfizer's oncology portfolio.,https://example.com/sec13,2023-01,Pfizer
+34,SEC,"Merck licensed technology from Moderna. Later, Merck collaborated with BioNTech on a separate vaccine effort.",https://example.com/sec14,2024-02,Merck
+35,USPTO,"AbbVie filed patent with Genmab. In a separate application, AbbVie worked with Calico.",https://example.com/uspto5,2022-11,AbbVie
+36,PUBMED,Novartis collaborated with Alnylam on siRNA delivery. Novartis also worked with Intellia on genome editing.,https://example.com/pubmed7,2023-07,Novartis
+37,SEC,CSL Behring and CSL Behring GmbH were both referenced in the transaction summary.,https://example.com/sec15,2023-09,CSL Behring
+38,SEC,10X Genomics Sweden AB and 10X Genomics BV were both mentioned in the filing.,https://example.com/sec16,2024-07,10X Genomics
+39,PUBMED,J&J worked with Johnson and Johnson Innovative Medicine on an antibody study.,https://example.com/pubmed8,2022-01,Johnson & Johnson
+40,USPTO,"Regeneron and Regeneron Pharmaceuticals, Inc. appear as co-assignees in related filings.",https://example.com/uspto6,2021-03,Regeneron
+41,SEC,Eli Lilly acquired POINT Biopharma to strengthen its radiopharmaceutical portfolio.,https://example.com/sec17,2023-10,Eli Lilly
+42,SEC,Roche entered into a collaboration with Recursion Pharmaceuticals.,https://example.com/sec18,2024-01,Roche
+43,PUBMED,Takeda worked with Arrowhead Pharmaceuticals on RNAi therapeutics.,https://example.com/pubmed9,2021-04,Takeda
+44,USPTO,Amgen co-filed a patent with Generate Biomedicines.,https://example.com/uspto7,2024-02,Amgen
+45,SEC,Biogen licensed a neurodegeneration program from Stoke Therapeutics.,https://example.com/sec19,2023-11,Biogen
+46,PUBMED,GSK partnered with CureVac on next-generation mRNA vaccines.,https://example.com/pubmed10,2022-05,GSK
+47,SEC,Johnson & Johnson acquired Shockwave Medical.,https://example.com/sec20,2024-06,Johnson & Johnson
+48,USPTO,Novo Nordisk filed patent with Valo Health on computational drug discovery.,https://example.com/uspto8,2023-12,Novo Nordisk
+49,SEC,Acme Bio collaborated with Beta Pharma.,,2023-13,Acme Bio
+50,UNKNOWN,Omega Therapeutics acquired ExampleCo.,https://example.com/unknown1,2022-07,Omega Therapeutics
+51,SEC,BioNTech entered into a collaboration with Genentech.,https://example.com/sec21,2023-09,Pfizer
+52,PUBMED,Sanofi worked with Regeneron on immunology programs.,https://example.com/pubmed11,2020-10,Takeda
+53,SEC,"""Moderna"" acquired 'Example Vaccine Co'.",https://example.com/sec22,2023-02,Moderna
+54,PUBMED,Seagen/Genmab collaboration was discussed in the review article.,https://example.com/pubmed12,2021-02,Seagen
+55,USPTO,"Merck & Co., Inc.; Moderna, Inc. ; and BioNTech SE were referenced in patent prosecution history.",https://example.com/uspto9,2024-03,Merck
+56,SEC,   Pfizer   licensed technology   from   Beam Therapeutics   ,https://example.com/sec23,2024-04,Pfizer
+57,PUBMED,FDA collaborated with Pfizer on regulatory science workshops.,https://example.com/pubmed13,2022-06,Pfizer
+58,SEC,University of Pennsylvania licensed technology to Spark Therapeutics.,https://example.com/sec24,2020-09,Spark Therapeutics
+59,SEC,Alnylam acquired Example RNA Startup.,not_a_url,2024-05,Alnylam
+60,PUBMED,Example Biotech worked with Example Diagnostics.,https://example.com/pubmed14,,Example Biotech
