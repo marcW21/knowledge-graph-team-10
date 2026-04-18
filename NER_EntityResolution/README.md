@@ -8,7 +8,7 @@
 Run `run_*.ipynb` to experience the whole process!
 Underconstructed...
 
-## 👾 Data
+## 👾 Data Format
 
 ### 👈 Input
 - source_id
@@ -47,10 +47,9 @@ File: `src/extract_candidate_relations.py`
 This process extracts candidate relationships, and store in `outputs/relations/candidate_relations_*.csv`.
 
 ## 🎃 Final deliverable!
-The current version is based on mock data. However, feel free to use them to build the pipeline, since the file formats will be the same.
 - For the next step - LLM validation and confidence scoring,
-  Main file: `outputs/entity_resolution/resolved_entities_*.csv`, `outputs/relations/candidate_relations_*.csv`
-  Secondary file: `outputs/ner/ner_results_*.csv`
+  Main file: `outputs/entity_resolution/resolved_entities_stage1.csv`, `outputs/relations/candidate_relations_stage1.csv`
+  Secondary file: `outputs/ner/ner_results_stage1.csv`
   
 - For manual review,
-  File: `data/processed/invalid_rows_*.csv`, `outputs/entity_resolution/review_queue_*.csv`
+  File: `data/processed/invalid_rows_stage1.csv`, `outputs/entity_resolution/review_queue_stage1.csv`
