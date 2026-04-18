@@ -1,0 +1,5 @@
+candidate_a,candidate_b,normalized_a,normalized_b,similarity_score,review_confidence,reason
+CSL Behring,CSL Behring GmbH,CSL BEHRING,CSL BEHRING GMBH,0.8148,0.55,same_base_name_but_suffix_differs
+10X GENOMICS,10X Genomics BV,10X GENOMICS,10X GENOMICS BV,0.8889,0.55,same_base_name_but_suffix_differs
+CSL Behring GmbH,CSL Behring Inc.,CSL BEHRING GMBH,CSL BEHRING INC,0.7742,0.55,same_base_name_but_suffix_differs
+CRISPR Therapeutics,Spark Therapeutics,CRISPR THERAPEUTICS,SPARK THERAPEUTICS,0.8649,0.5,high_string_similarity
