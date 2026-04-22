@@ -77,5 +77,5 @@ Using BioBERT/PubMedBERT with spaCy is our original idea. However, our main bott
 ### 😺 For our demo
 Replace `*` with `entityruler_stage1_merged`.
 
-### 😺 For mock
+### 😸 For mock
 Replace `*` with `entityruler_mock2`.
