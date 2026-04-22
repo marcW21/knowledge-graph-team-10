@@ -1,0 +1,197 @@
+candidate_a,candidate_b,normalized_a,normalized_b,similarity_score,review_confidence,reason
+IPC,IPCW,IPC,IPCW,0.8571,0.5,high_string_similarity
+III,IIIB,III,IIIB,0.8571,0.5,high_string_similarity
+Food and Drug Administration,U.S. Food and Drug Administration,FOOD AND DRUG ADMINISTRATION,U S FOOD AND DRUG ADMINISTRATION,0.9333,0.6,very_high_string_similarity_but_not_exact
+Food and Drug Administration,the U.S. Food and Drug Administration,FOOD AND DRUG ADMINISTRATION,THE U S FOOD AND DRUG ADMINISTRATION,0.875,0.5,high_string_similarity
+Food and Drug Administration,US Food and Drug Administration,FOOD AND DRUG ADMINISTRATION,US FOOD AND DRUG ADMINISTRATION,0.9492,0.6,very_high_string_similarity_but_not_exact
+Food and Drug Administration,the US Food and Drug Administration,FOOD AND DRUG ADMINISTRATION,THE US FOOD AND DRUG ADMINISTRATION,0.8889,0.5,high_string_similarity
+Food and Drug Administration,the Food and Drug Administration,FOOD AND DRUG ADMINISTRATION,THE FOOD AND DRUG ADMINISTRATION,0.9333,0.6,very_high_string_similarity_but_not_exact
+SALT,ALT,SALT,ALT,0.8571,0.5,high_string_similarity
+SALT,SAT,SALT,SAT,0.8571,0.5,high_string_similarity
+THE SECURITIES EXCHANGE ACT OF,the Securities Exchange Act,THE SECURITIES EXCHANGE ACT OF,THE SECURITIES EXCHANGE ACT,0.9474,0.6,very_high_string_similarity_but_not_exact
+THE SECURITIES EXCHANGE ACT OF,the Securities Exchange Act,THE SECURITIES EXCHANGE ACT OF,THE SECURITIES EXCHANGE ACT,0.9474,0.6,very_high_string_similarity_but_not_exact
+THE SECURITIES EXCHANGE ACT OF,the Securities Exchange Act,THE SECURITIES EXCHANGE ACT OF,THE SECURITIES EXCHANGE ACT,0.9474,0.6,very_high_string_similarity_but_not_exact
+I.R.S. Employer,IRS Employer,I R S EMPLOYER,IRS EMPLOYER,0.9231,0.6,very_high_string_similarity_but_not_exact
+PFE New York Stock Exchange,PFE/27 New York Stock Exchange,PFE NEW YORK STOCK EXCHANGE,PFE 27 NEW YORK STOCK EXCHANGE,0.9474,0.6,very_high_string_similarity_but_not_exact
+PFE New York Stock Exchange,New York Stock Exchange,PFE NEW YORK STOCK EXCHANGE,NEW YORK STOCK EXCHANGE,0.92,0.6,very_high_string_similarity_but_not_exact
+PFE New York Stock Exchange,JNJ28 New York Stock Exchange,PFE NEW YORK STOCK EXCHANGE,JNJ28 NEW YORK STOCK EXCHANGE,0.8571,0.5,high_string_similarity
+PFE New York Stock Exchange,JNJ32 New York Stock Exchange,PFE NEW YORK STOCK EXCHANGE,JNJ32 NEW YORK STOCK EXCHANGE,0.8571,0.5,high_string_similarity
+PFE New York Stock Exchange,JNJ44 New York Stock Exchange,PFE NEW YORK STOCK EXCHANGE,JNJ44 NEW YORK STOCK EXCHANGE,0.8571,0.5,high_string_similarity
+PFE New York Stock Exchange,JNJ45 New York Stock Exchange,PFE NEW YORK STOCK EXCHANGE,JNJ45 NEW YORK STOCK EXCHANGE,0.8571,0.5,high_string_similarity
+PFE New York Stock Exchange,MRK New York Stock Exchange,PFE NEW YORK STOCK EXCHANGE,MRK NEW YORK STOCK EXCHANGE,0.8889,0.5,high_string_similarity
+New York Stock Exchange Indicate,PFE/45 New York Stock Exchange Indicate,NEW YORK STOCK EXCHANGE INDICATE,PFE 45 NEW YORK STOCK EXCHANGE INDICATE,0.9014,0.5,high_string_similarity
+New York Stock Exchange Indicate,MRK/54 New York Stock Exchange Indicate,NEW YORK STOCK EXCHANGE INDICATE,MRK 54 NEW YORK STOCK EXCHANGE INDICATE,0.9014,0.5,high_string_similarity
+the U.S. Securities and Exchange Commission,the Securities and Exchange Commission,THE U S SECURITIES AND EXCHANGE COMMISSION,THE SECURITIES AND EXCHANGE COMMISSION,0.95,0.6,very_high_string_similarity_but_not_exact
+the U.S. Securities and Exchange Commission,UNITED STATES SECURITIES AND EXCHANGE COMMISSION,THE U S SECURITIES AND EXCHANGE COMMISSION,UNITED STATES SECURITIES AND EXCHANGE COMMISSION,0.8667,0.5,high_string_similarity
+the U.S. Securities and Exchange Commission,the Securities Exchange Commission,THE U S SECURITIES AND EXCHANGE COMMISSION,THE SECURITIES EXCHANGE COMMISSION,0.8947,0.5,high_string_similarity
+the U.S. Securities and Exchange Commission,the United States Securities and Exchange Commission,THE U S SECURITIES AND EXCHANGE COMMISSION,THE UNITED STATES SECURITIES AND EXCHANGE COMMISSION,0.8936,0.5,high_string_similarity
+Nominee Votes For Votes Against Abstentions Broker,Names Votes For Votes Against Abstentions Broker Non-Votes,NOMINEE VOTES FOR VOTES AGAINST ABSTENTIONS BROKER,NAMES VOTES FOR VOTES AGAINST ABSTENTIONS BROKER NON VOTES,0.8519,0.5,high_string_similarity
+Cover Page Interactive Data File,Cover Page Interactive File,COVER PAGE INTERACTIVE DATA FILE,COVER PAGE INTERACTIVE FILE,0.9153,0.5,high_string_similarity
+PFE/27 New York Stock Exchange,New York Stock Exchange,PFE 27 NEW YORK STOCK EXCHANGE,NEW YORK STOCK EXCHANGE,0.8679,0.5,high_string_similarity
+PFE/27 New York Stock Exchange,MRK/37 New York Stock Exchange,PFE 27 NEW YORK STOCK EXCHANGE,MRK 37 NEW YORK STOCK EXCHANGE,0.8667,0.5,high_string_similarity
+New York Stock Exchange,JNJ28 New York Stock Exchange,NEW YORK STOCK EXCHANGE,JNJ28 NEW YORK STOCK EXCHANGE,0.8846,0.5,high_string_similarity
+New York Stock Exchange,JNJ29B New York Stock Exchange,NEW YORK STOCK EXCHANGE,JNJ29B NEW YORK STOCK EXCHANGE,0.8679,0.5,high_string_similarity
+New York Stock Exchange,JNJ32 New York Stock Exchange,NEW YORK STOCK EXCHANGE,JNJ32 NEW YORK STOCK EXCHANGE,0.8846,0.5,high_string_similarity
+New York Stock Exchange,JNJ36A New York Stock Exchange,NEW YORK STOCK EXCHANGE,JNJ36A NEW YORK STOCK EXCHANGE,0.8679,0.5,high_string_similarity
+New York Stock Exchange,JNJ37B New York Stock Exchange,NEW YORK STOCK EXCHANGE,JNJ37B NEW YORK STOCK EXCHANGE,0.8679,0.5,high_string_similarity
+New York Stock Exchange,JNJ44 New York Stock Exchange,NEW YORK STOCK EXCHANGE,JNJ44 NEW YORK STOCK EXCHANGE,0.8846,0.5,high_string_similarity
+New York Stock Exchange,JNJ45 New York Stock Exchange,NEW YORK STOCK EXCHANGE,JNJ45 NEW YORK STOCK EXCHANGE,0.8846,0.5,high_string_similarity
+New York Stock Exchange,MRK New York Stock Exchange,NEW YORK STOCK EXCHANGE,MRK NEW YORK STOCK EXCHANGE,0.92,0.6,very_high_string_similarity_but_not_exact
+New York Stock Exchange,MRK/37 New York Stock Exchange,NEW YORK STOCK EXCHANGE,MRK 37 NEW YORK STOCK EXCHANGE,0.8679,0.5,high_string_similarity
+New York Stock Exchange,MRK/44 New York Stock Exchange,NEW YORK STOCK EXCHANGE,MRK 44 NEW YORK STOCK EXCHANGE,0.8679,0.5,high_string_similarity
+PFE/45 New York Stock Exchange Indicate,MRK/54 New York Stock Exchange Indicate,PFE 45 NEW YORK STOCK EXCHANGE INDICATE,MRK 54 NEW YORK STOCK EXCHANGE INDICATE,0.8974,0.5,high_string_similarity
+IRA,PIRA,IRA,PIRA,0.8571,0.5,high_string_similarity
+Pfizer Netherlands International Finance B.V.,the Pfizer Netherlands International Finance B.V.,PFIZER NETHERLANDS INTERNATIONAL FINANCE B V,THE PFIZER NETHERLANDS INTERNATIONAL FINANCE B V,0.9565,0.6,very_high_string_similarity_but_not_exact
+the Securities and Exchange Commission,UNITED STATES SECURITIES AND EXCHANGE COMMISSION,THE SECURITIES AND EXCHANGE COMMISSION,UNITED STATES SECURITIES AND EXCHANGE COMMISSION,0.8605,0.5,high_string_similarity
+the Securities and Exchange Commission,the Securities Exchange Commission,THE SECURITIES AND EXCHANGE COMMISSION,THE SECURITIES EXCHANGE COMMISSION,0.9444,0.6,very_high_string_similarity_but_not_exact
+the Post-Effective Amendment No,Post-Effective Amendment No,THE POST EFFECTIVE AMENDMENT NO,POST EFFECTIVE AMENDMENT NO,0.931,0.6,very_high_string_similarity_but_not_exact
+the “First Supplemental Indenture,the “Sixth Supplemental Indenture,THE FIRST SUPPLEMENTAL INDENTURE,THE SIXTH SUPPLEMENTAL INDENTURE,0.9062,0.5,high_string_similarity
+the “First Supplemental Indenture,the “Sixth Supplemental Indenture,THE FIRST SUPPLEMENTAL INDENTURE,THE SIXTH SUPPLEMENTAL INDENTURE,0.9062,0.5,high_string_similarity
+the “First Supplemental Indenture,the “Sixth Supplemental Indenture,THE FIRST SUPPLEMENTAL INDENTURE,THE SIXTH SUPPLEMENTAL INDENTURE,0.9062,0.5,high_string_similarity
+the “First Supplemental Indenture,the “Sixth Supplemental Indenture,THE FIRST SUPPLEMENTAL INDENTURE,THE SIXTH SUPPLEMENTAL INDENTURE,0.9062,0.5,high_string_similarity
+the “First Supplemental Indenture,the “Sixth Supplemental Indenture,THE FIRST SUPPLEMENTAL INDENTURE,THE SIXTH SUPPLEMENTAL INDENTURE,0.9062,0.5,high_string_similarity
+the “First Supplemental Indenture,the “Sixth Supplemental Indenture,THE FIRST SUPPLEMENTAL INDENTURE,THE SIXTH SUPPLEMENTAL INDENTURE,0.9062,0.5,high_string_similarity
+UNITED STATES SECURITIES AND EXCHANGE COMMISSION,the United States Securities and Exchange Commission,UNITED STATES SECURITIES AND EXCHANGE COMMISSION,THE UNITED STATES SECURITIES AND EXCHANGE COMMISSION,0.96,0.6,very_high_string_similarity_but_not_exact
+U.S. Food and Drug Administration,the U.S. Food and Drug Administration,U S FOOD AND DRUG ADMINISTRATION,THE U S FOOD AND DRUG ADMINISTRATION,0.9412,0.6,very_high_string_similarity_but_not_exact
+U.S. Food and Drug Administration,US Food and Drug Administration,U S FOOD AND DRUG ADMINISTRATION,US FOOD AND DRUG ADMINISTRATION,0.9841,0.6,very_high_string_similarity_but_not_exact
+U.S. Food and Drug Administration,the US Food and Drug Administration,U S FOOD AND DRUG ADMINISTRATION,THE US FOOD AND DRUG ADMINISTRATION,0.9254,0.6,very_high_string_similarity_but_not_exact
+U.S. Food and Drug Administration,the Food and Drug Administration,U S FOOD AND DRUG ADMINISTRATION,THE FOOD AND DRUG ADMINISTRATION,0.9062,0.5,high_string_similarity
+B C. WIPO,B D. WIPO,B C WIPO,B D WIPO,0.875,0.5,high_string_similarity
+Genomics Inc.,"Genomics, Inc.'s",GENOMICS INC,GENOMICS INC S,0.9231,0.6,very_high_string_similarity_but_not_exact
+Genomics Inc.,"Genomics, Inc.'s",GENOMICS INC,GENOMICS INC S,0.9231,0.6,very_high_string_similarity_but_not_exact
+IRS Employer Identification No.,I.R.S. Employer Identification No.,IRS EMPLOYER IDENTIFICATION NO,I R S EMPLOYER IDENTIFICATION NO,0.9677,0.6,very_high_string_similarity_but_not_exact
+IRS Employer Identification No.,IRS Employer Identification Number,IRS EMPLOYER IDENTIFICATION NO,IRS EMPLOYER IDENTIFICATION NUMBER,0.9062,0.5,high_string_similarity
+Press Release,the “Press Release,PRESS RELEASE,THE PRESS RELEASE,0.8667,0.5,high_string_similarity
+National Institutes of Health,the National Institutes of Health (&,NATIONAL INSTITUTES OF HEALTH,THE NATIONAL INSTITUTES OF HEALTH AND,0.8788,0.5,high_string_similarity
+National Institutes of Health,the National Institutes of Health,NATIONAL INSTITUTES OF HEALTH,THE NATIONAL INSTITUTES OF HEALTH,0.9355,0.6,very_high_string_similarity_but_not_exact
+the National Institutes of Health (&,the National Institutes of Health,THE NATIONAL INSTITUTES OF HEALTH AND,THE NATIONAL INSTITUTES OF HEALTH,0.9429,0.6,very_high_string_similarity_but_not_exact
+Nominee Votes For Votes Against Abstentions Broker Non-Votes Sri Kosaraju,Names Votes For Votes Against Abstentions Broker Non-Votes,NOMINEE VOTES FOR VOTES AGAINST ABSTENTIONS BROKER NON VOTES SRI KOSARAJU,NAMES VOTES FOR VOTES AGAINST ABSTENTIONS BROKER NON VOTES,0.855,0.5,high_string_similarity
+Votes For Votes Against Abstentions Broker Non-Votes,Names Votes For Votes Against Abstentions Broker Non-Votes,VOTES FOR VOTES AGAINST ABSTENTIONS BROKER NON VOTES,NAMES VOTES FOR VOTES AGAINST ABSTENTIONS BROKER NON VOTES,0.9455,0.6,very_high_string_similarity_but_not_exact
+Votes For Votes Against Abstentions Broker Non-Votes,Votes For Votes Against Abstain Broker Non-Votes,VOTES FOR VOTES AGAINST ABSTENTIONS BROKER NON VOTES,VOTES FOR VOTES AGAINST ABSTAIN BROKER NON VOTES,0.92,0.6,very_high_string_similarity_but_not_exact
+District Court,the District Court,DISTRICT COURT,THE DISTRICT COURT,0.875,0.5,high_string_similarity
+NanoString’s,NanoString,NANOSTRING S,NANOSTRING,0.9091,0.5,high_string_similarity
+HAE,HALE,HAE,HALE,0.8571,0.5,high_string_similarity
+CIDP,CID,CIDP,CID,0.8571,0.5,high_string_similarity
+MCID,CID,MCID,CID,0.8571,0.5,high_string_similarity
+Merck & Co,"Merck & Co, Inc.",MERCK AND CO,MERCK AND CO INC,0.8571,0.55,same_base_name_but_suffix_differs
+Merck & Co,"Merck & Co, Inc.",MERCK AND CO,MERCK AND CO INC,0.8571,0.55,same_base_name_but_suffix_differs
+Merck & Co,"Merck & Co, Inc.",MERCK AND CO,MERCK AND CO INC,0.8571,0.55,same_base_name_but_suffix_differs
+the U.S. Food and Drug Administration,US Food and Drug Administration,THE U S FOOD AND DRUG ADMINISTRATION,US FOOD AND DRUG ADMINISTRATION,0.9254,0.6,very_high_string_similarity_but_not_exact
+the U.S. Food and Drug Administration,the US Food and Drug Administration,THE U S FOOD AND DRUG ADMINISTRATION,THE US FOOD AND DRUG ADMINISTRATION,0.9859,0.6,very_high_string_similarity_but_not_exact
+the U.S. Food and Drug Administration,the Food and Drug Administration,THE U S FOOD AND DRUG ADMINISTRATION,THE FOOD AND DRUG ADMINISTRATION,0.9412,0.6,very_high_string_similarity_but_not_exact
+"MODERNA, INC.","ModernaTX, Inc.",MODERNA INC,MODERNATX INC,0.9167,0.5,high_string_similarity
+8-K mrna-20260105 0001682852,8-K mrna-20260112 0001682852,8 K MRNA 20260105 0001682852,8 K MRNA 20260112 0001682852,0.9286,0.6,very_high_string_similarity_but_not_exact
+the “Effective Date,the Effective Time,THE EFFECTIVE DATE,THE EFFECTIVE TIME,0.8889,0.5,high_string_similarity
+Genevant Sciences GmbH,Genevant Sciences Ltd.,GENEVANT SCIENCES GMBH,GENEVANT SCIENCES LTD,0.8372,0.55,same_base_name_but_suffix_differs
+Arbutus/Genevant,Arbutus/Genevant’s,ARBUTUS GENEVANT,ARBUTUS GENEVANT S,0.9412,0.6,very_high_string_similarity_but_not_exact
+JOHNSON & JOHNSON,the Johnson & Johnson,JOHNSON AND JOHNSON,THE JOHNSON AND JOHNSON,0.9048,0.5,high_string_similarity
+JOHNSON & JOHNSON,Johnson & Johnson (Exact,JOHNSON AND JOHNSON,JOHNSON AND JOHNSON EXACT,0.8636,0.5,high_string_similarity
+JOHNSON & JOHNSON,Johnson & Johnson Plaza,JOHNSON AND JOHNSON,JOHNSON AND JOHNSON PLAZA,0.8636,0.5,high_string_similarity
+The Johnson & Johnson Vaccine,the Johnson & Johnson,THE JOHNSON AND JOHNSON VACCINE,THE JOHNSON AND JOHNSON,0.8519,0.5,high_string_similarity
+the Johnson & Johnson,JOHNSON & JOHNSON,THE JOHNSON AND JOHNSON,JOHNSON AND JOHNSON,0.9048,0.5,high_string_similarity
+JOHNSON & JOHNSON,Johnson & Johnson (Exact,JOHNSON AND JOHNSON,JOHNSON AND JOHNSON EXACT,0.8636,0.5,high_string_similarity
+JOHNSON & JOHNSON,Johnson & Johnson Plaza,JOHNSON AND JOHNSON,JOHNSON AND JOHNSON PLAZA,0.8636,0.5,high_string_similarity
+ICONIC-ADVANCE 1,ICONIC-ADVANCE 2,ICONIC ADVANCE 1,ICONIC ADVANCE 2,0.9375,0.6,very_high_string_similarity_but_not_exact
+8-K jnj-20250331 0000200406,8-K jnj-20250415 0000200406,8 K JNJ 20250331 0000200406,8 K JNJ 20250415 0000200406,0.9259,0.6,very_high_string_similarity_but_not_exact
+8-K jnj-20250331 0000200406,8-K jnj-20260414 0000200406,8 K JNJ 20250331 0000200406,8 K JNJ 20260414 0000200406,0.8889,0.5,high_string_similarity
+JNJ28 New York Stock Exchange,JNJ29B New York Stock Exchange,JNJ28 NEW YORK STOCK EXCHANGE,JNJ29B NEW YORK STOCK EXCHANGE,0.9492,0.6,very_high_string_similarity_but_not_exact
+JNJ28 New York Stock Exchange,JNJ32 New York Stock Exchange,JNJ28 NEW YORK STOCK EXCHANGE,JNJ32 NEW YORK STOCK EXCHANGE,0.9655,0.6,very_high_string_similarity_but_not_exact
+JNJ28 New York Stock Exchange,JNJ36A New York Stock Exchange,JNJ28 NEW YORK STOCK EXCHANGE,JNJ36A NEW YORK STOCK EXCHANGE,0.9153,0.5,high_string_similarity
+JNJ28 New York Stock Exchange,JNJ37B New York Stock Exchange,JNJ28 NEW YORK STOCK EXCHANGE,JNJ37B NEW YORK STOCK EXCHANGE,0.9153,0.5,high_string_similarity
+JNJ28 New York Stock Exchange,JNJ44 New York Stock Exchange,JNJ28 NEW YORK STOCK EXCHANGE,JNJ44 NEW YORK STOCK EXCHANGE,0.931,0.6,very_high_string_similarity_but_not_exact
+JNJ28 New York Stock Exchange,JNJ45 New York Stock Exchange,JNJ28 NEW YORK STOCK EXCHANGE,JNJ45 NEW YORK STOCK EXCHANGE,0.931,0.6,very_high_string_similarity_but_not_exact
+JNJ28 New York Stock Exchange,MRK New York Stock Exchange,JNJ28 NEW YORK STOCK EXCHANGE,MRK NEW YORK STOCK EXCHANGE,0.8571,0.5,high_string_similarity
+JNJ29B New York Stock Exchange,JNJ32 New York Stock Exchange,JNJ29B NEW YORK STOCK EXCHANGE,JNJ32 NEW YORK STOCK EXCHANGE,0.9492,0.6,very_high_string_similarity_but_not_exact
+JNJ29B New York Stock Exchange,JNJ36A New York Stock Exchange,JNJ29B NEW YORK STOCK EXCHANGE,JNJ36A NEW YORK STOCK EXCHANGE,0.9,0.5,high_string_similarity
+JNJ29B New York Stock Exchange,JNJ37B New York Stock Exchange,JNJ29B NEW YORK STOCK EXCHANGE,JNJ37B NEW YORK STOCK EXCHANGE,0.9333,0.6,very_high_string_similarity_but_not_exact
+JNJ29B New York Stock Exchange,JNJ44 New York Stock Exchange,JNJ29B NEW YORK STOCK EXCHANGE,JNJ44 NEW YORK STOCK EXCHANGE,0.9153,0.5,high_string_similarity
+JNJ29B New York Stock Exchange,JNJ45 New York Stock Exchange,JNJ29B NEW YORK STOCK EXCHANGE,JNJ45 NEW YORK STOCK EXCHANGE,0.9153,0.5,high_string_similarity
+JNJ32 New York Stock Exchange,JNJ36A New York Stock Exchange,JNJ32 NEW YORK STOCK EXCHANGE,JNJ36A NEW YORK STOCK EXCHANGE,0.9492,0.6,very_high_string_similarity_but_not_exact
+JNJ32 New York Stock Exchange,JNJ37B New York Stock Exchange,JNJ32 NEW YORK STOCK EXCHANGE,JNJ37B NEW YORK STOCK EXCHANGE,0.9492,0.6,very_high_string_similarity_but_not_exact
+JNJ32 New York Stock Exchange,JNJ44 New York Stock Exchange,JNJ32 NEW YORK STOCK EXCHANGE,JNJ44 NEW YORK STOCK EXCHANGE,0.931,0.6,very_high_string_similarity_but_not_exact
+JNJ32 New York Stock Exchange,JNJ45 New York Stock Exchange,JNJ32 NEW YORK STOCK EXCHANGE,JNJ45 NEW YORK STOCK EXCHANGE,0.931,0.6,very_high_string_similarity_but_not_exact
+JNJ32 New York Stock Exchange,MRK New York Stock Exchange,JNJ32 NEW YORK STOCK EXCHANGE,MRK NEW YORK STOCK EXCHANGE,0.8571,0.5,high_string_similarity
+JNJ36A New York Stock Exchange,JNJ37B New York Stock Exchange,JNJ36A NEW YORK STOCK EXCHANGE,JNJ37B NEW YORK STOCK EXCHANGE,0.9333,0.6,very_high_string_similarity_but_not_exact
+JNJ36A New York Stock Exchange,JNJ44 New York Stock Exchange,JNJ36A NEW YORK STOCK EXCHANGE,JNJ44 NEW YORK STOCK EXCHANGE,0.9153,0.5,high_string_similarity
+JNJ36A New York Stock Exchange,JNJ45 New York Stock Exchange,JNJ36A NEW YORK STOCK EXCHANGE,JNJ45 NEW YORK STOCK EXCHANGE,0.9153,0.5,high_string_similarity
+JNJ37B New York Stock Exchange,JNJ44 New York Stock Exchange,JNJ37B NEW YORK STOCK EXCHANGE,JNJ44 NEW YORK STOCK EXCHANGE,0.9153,0.5,high_string_similarity
+JNJ37B New York Stock Exchange,JNJ45 New York Stock Exchange,JNJ37B NEW YORK STOCK EXCHANGE,JNJ45 NEW YORK STOCK EXCHANGE,0.9153,0.5,high_string_similarity
+JNJ37B New York Stock Exchange,MRK/37 New York Stock Exchange,JNJ37B NEW YORK STOCK EXCHANGE,MRK 37 NEW YORK STOCK EXCHANGE,0.8667,0.5,high_string_similarity
+JNJ44 New York Stock Exchange,JNJ45 New York Stock Exchange,JNJ44 NEW YORK STOCK EXCHANGE,JNJ45 NEW YORK STOCK EXCHANGE,0.9655,0.6,very_high_string_similarity_but_not_exact
+JNJ44 New York Stock Exchange,MRK New York Stock Exchange,JNJ44 NEW YORK STOCK EXCHANGE,MRK NEW YORK STOCK EXCHANGE,0.8571,0.5,high_string_similarity
+JNJ44 New York Stock Exchange,MRK/44 New York Stock Exchange,JNJ44 NEW YORK STOCK EXCHANGE,MRK 44 NEW YORK STOCK EXCHANGE,0.8814,0.5,high_string_similarity
+JNJ45 New York Stock Exchange,MRK New York Stock Exchange,JNJ45 NEW YORK STOCK EXCHANGE,MRK NEW YORK STOCK EXCHANGE,0.8571,0.5,high_string_similarity
+8-K jnj-20250415 0000200406,8-K jnj-20260414 0000200406,8 K JNJ 20250415 0000200406,8 K JNJ 20260414 0000200406,0.9259,0.6,very_high_string_similarity_but_not_exact
+Board of Directors,the Board of Directors,BOARD OF DIRECTORS,THE BOARD OF DIRECTORS,0.9,0.5,high_string_similarity
+Innovative Medicine,U.S. Innovative Medicine,INNOVATIVE MEDICINE,U S INNOVATIVE MEDICINE,0.9048,0.5,high_string_similarity
+the Board of Directors,the Board of Directors of,THE BOARD OF DIRECTORS,THE BOARD OF DIRECTORS OF,0.9362,0.6,very_high_string_similarity_but_not_exact
+International Federation of Gynecology and,International Federation of Gynecology and Obstetrics,INTERNATIONAL FEDERATION OF GYNECOLOGY AND,INTERNATIONAL FEDERATION OF GYNECOLOGY AND OBSTETRICS,0.8842,0.5,high_string_similarity
+Response Evaluation Criteria,the Response Evaluation Criteria,RESPONSE EVALUATION CRITERIA,THE RESPONSE EVALUATION CRITERIA,0.9333,0.6,very_high_string_similarity_but_not_exact
+"Merck & Co, Inc.",Merck & Co,MERCK AND CO INC,MERCK AND CO,0.8571,0.55,same_base_name_but_suffix_differs
+p=0·025,p<0.05,P 0 025,P 0 05,0.9231,0.6,very_high_string_similarity_but_not_exact
+"Merck & Co, Inc.",Merck & Co,MERCK AND CO INC,MERCK AND CO,0.8571,0.55,same_base_name_but_suffix_differs
+"Merck & Co, Inc.",Merck & Co,MERCK AND CO INC,MERCK AND CO,0.8571,0.55,same_base_name_but_suffix_differs
+IIIB,IIB,IIIB,IIB,0.8571,0.5,high_string_similarity
+I.R.S. Employer Identification No.,IRS Employer Identification Number,I R S EMPLOYER IDENTIFICATION NO,IRS EMPLOYER IDENTIFICATION NUMBER,0.8788,0.5,high_string_similarity
+MRK New York Stock Exchange,MRK/37 New York Stock Exchange,MRK NEW YORK STOCK EXCHANGE,MRK 37 NEW YORK STOCK EXCHANGE,0.9474,0.6,very_high_string_similarity_but_not_exact
+MRK New York Stock Exchange,MRK/44 New York Stock Exchange,MRK NEW YORK STOCK EXCHANGE,MRK 44 NEW YORK STOCK EXCHANGE,0.9474,0.6,very_high_string_similarity_but_not_exact
+MRK New York Stock Exchange,MRK/54 New York Stock Exchange Item,MRK NEW YORK STOCK EXCHANGE,MRK 54 NEW YORK STOCK EXCHANGE ITEM,0.871,0.5,high_string_similarity
+MRK/37 New York Stock Exchange,MRK/44 New York Stock Exchange,MRK 37 NEW YORK STOCK EXCHANGE,MRK 44 NEW YORK STOCK EXCHANGE,0.9333,0.6,very_high_string_similarity_but_not_exact
+MRK/37 New York Stock Exchange,MRK/54 New York Stock Exchange Item,MRK 37 NEW YORK STOCK EXCHANGE,MRK 54 NEW YORK STOCK EXCHANGE ITEM,0.8615,0.5,high_string_similarity
+MRK/44 New York Stock Exchange,MRK/54 New York Stock Exchange Item,MRK 44 NEW YORK STOCK EXCHANGE,MRK 54 NEW YORK STOCK EXCHANGE ITEM,0.8923,0.5,high_string_similarity
+MRK/54 New York Stock Exchange Indicate,MRK/54 New York Stock Exchange Item,MRK 54 NEW YORK STOCK EXCHANGE INDICATE,MRK 54 NEW YORK STOCK EXCHANGE ITEM,0.9189,0.5,high_string_similarity
+I.R.S. Employer,IRS Employer,I R S EMPLOYER,IRS EMPLOYER,0.9231,0.6,very_high_string_similarity_but_not_exact
+U.S. Bank Trust National Association,U.S. Bank National Association,U S BANK TRUST NATIONAL ASSOCIATION,U S BANK NATIONAL ASSOCIATION,0.9062,0.5,high_string_similarity
+Names Votes For Votes Against Abstentions Broker Non-Votes,Votes For Votes Against Abstain Broker Non-Votes,NAMES VOTES FOR VOTES AGAINST ABSTENTIONS BROKER NON VOTES,VOTES FOR VOTES AGAINST ABSTAIN BROKER NON VOTES,0.8679,0.5,high_string_similarity
+UltIMMa-1,UltIMMa-2,ULTIMMA 1,ULTIMMA 2,0.8889,0.5,high_string_similarity
+AbbVie Company,AbbVie Inc.,ABBVIE COMPANY,ABBVIE INC,0.6667,0.55,same_base_name_but_suffix_differs
+AbbVie Company,AbbVie Inc.,ABBVIE COMPANY,ABBVIE INC,0.6667,0.55,same_base_name_but_suffix_differs
+AbbVie Company,AbbVie Inc.,ABBVIE COMPANY,ABBVIE INC,0.6667,0.55,same_base_name_but_suffix_differs
+Venetoclax-Rituximab,venetoclax-rituximab group,VENETOCLAX RITUXIMAB,VENETOCLAX RITUXIMAB GROUP,0.8696,0.5,high_string_similarity
+the “ Fixed Rate Notes,Fixed Rate Notes,THE FIXED RATE NOTES,FIXED RATE NOTES,0.8889,0.5,high_string_similarity
+Fixed Rate Notes,the “ Fixed Rate Notes,FIXED RATE NOTES,THE FIXED RATE NOTES,0.8889,0.5,high_string_similarity
+the National Institutes of Health,the National Institute of Mental Health,THE NATIONAL INSTITUTES OF HEALTH,THE NATIONAL INSTITUTE OF MENTAL HEALTH,0.8889,0.5,high_string_similarity
+ACMG,ACG,ACMG,ACG,0.8571,0.5,high_string_similarity
+FRAME,FAME,FRAME,FAME,0.8889,0.5,high_string_similarity
+Risks Related to Competition &#,Risks Related to Operations &#,RISKS RELATED TO COMPETITION AND,RISKS RELATED TO OPERATIONS AND,0.8889,0.5,high_string_similarity
+8-K amgn-20260203 0000318154,8-K amgn-20251104 0000318154,8 K AMGN 20260203 0000318154,8 K AMGN 20251104 0000318154,0.8571,0.5,high_string_similarity
+The Nasdaq Stock Market LLC Indicate,The Nasdaq Stock Market LLC,THE NASDAQ STOCK MARKET LLC INDICATE,THE NASDAQ STOCK MARKET LLC,0.8571,0.5,high_string_similarity
+The Nasdaq Stock Market LLC Indicate,The Nasdaq Stock Market LLC,THE NASDAQ STOCK MARKET LLC INDICATE,THE NASDAQ STOCK MARKET LLC,0.8571,0.5,high_string_similarity
+"Kyowa Kirin Co., Ltd.",Kyowa Kirin,KYOWA KIRIN CO LTD,KYOWA KIRIN,0.7586,0.55,same_base_name_but_suffix_differs
+the Company’s 2026,the Company’s 2015,THE COMPANY S 2026,THE COMPANY S 2015,0.8889,0.5,high_string_similarity
+US Food and Drug Administration,the US Food and Drug Administration,US FOOD AND DRUG ADMINISTRATION,THE US FOOD AND DRUG ADMINISTRATION,0.9394,0.6,very_high_string_similarity_but_not_exact
+US Food and Drug Administration,the Food and Drug Administration,US FOOD AND DRUG ADMINISTRATION,THE FOOD AND DRUG ADMINISTRATION,0.9206,0.6,very_high_string_similarity_but_not_exact
+the Bill & Melinda Gates Foundation,Bill & Melinda Gates Foundation,THE BILL AND MELINDA GATES FOUNDATION,BILL AND MELINDA GATES FOUNDATION,0.9429,0.6,very_high_string_similarity_but_not_exact
+the US Food and Drug Administration,the Food and Drug Administration,THE US FOOD AND DRUG ADMINISTRATION,THE FOOD AND DRUG ADMINISTRATION,0.9552,0.6,very_high_string_similarity_but_not_exact
+Delaware 0-19731,Delaware 000-19731,DELAWARE 0 19731,DELAWARE 000 19731,0.9412,0.6,very_high_string_similarity_but_not_exact
+the Delaware General Corporation Law,the General Corporation Law,THE DELAWARE GENERAL CORPORATION LAW,THE GENERAL CORPORATION LAW,0.8571,0.5,high_string_similarity
+the Effective Time,the “Effective Date,THE EFFECTIVE TIME,THE EFFECTIVE DATE,0.8889,0.5,high_string_similarity
+"Amphastar Pharmaceuticals, Inc.","Armstrong Pharmaceuticals, Inc.",AMPHASTAR PHARMACEUTICALS INC,ARMSTRONG PHARMACEUTICALS INC,0.8621,0.5,high_string_similarity
+"Amphastar Pharmaceuticals, Inc.","Amphastar Nanjing Pharmaceuticals, Inc.",AMPHASTAR PHARMACEUTICALS INC,AMPHASTAR NANJING PHARMACEUTICALS INC,0.8788,0.5,high_string_similarity
+nasal spray administration,nasal administration,NASAL SPRAY ADMINISTRATION,NASAL ADMINISTRATION,0.8696,0.5,high_string_similarity
+glucagon,pGlucagon,GLUCAGON,PGLUCAGON,0.9412,0.6,very_high_string_similarity_but_not_exact
+HEK-Blue™-hNOD1,HEK-Blue™-hNOD2,HEK BLUE HNOD1,HEK BLUE HNOD2,0.9286,0.6,very_high_string_similarity_but_not_exact
+"Nanjing Anji Biotechnology Co., Ltd.","Nanjing Letop Biotechnology Co., Ltd.",NANJING ANJI BIOTECHNOLOGY CO LTD,NANJING LETOP BIOTECHNOLOGY CO LTD,0.8657,0.5,high_string_similarity
+Licensed Products,the Licensed Products,LICENSED PRODUCTS,THE LICENSED PRODUCTS,0.8947,0.5,high_string_similarity
+Licensed Products,the Licensed Product,LICENSED PRODUCTS,THE LICENSED PRODUCT,0.8649,0.5,high_string_similarity
+each Licensed Product,the Licensed Products,EACH LICENSED PRODUCT,THE LICENSED PRODUCTS,0.8571,0.5,high_string_similarity
+each Licensed Product,the Licensed Product,EACH LICENSED PRODUCT,THE LICENSED PRODUCT,0.878,0.5,high_string_similarity
+the Licensed Products,the Licensed Product,THE LICENSED PRODUCTS,THE LICENSED PRODUCT,0.9756,0.6,very_high_string_similarity_but_not_exact
+the License Agreement,License Agreement,THE LICENSE AGREEMENT,LICENSE AGREEMENT,0.8947,0.5,high_string_similarity
+the “Contract Research Amendment,the Contract Research Agreement,THE CONTRACT RESEARCH AMENDMENT,THE CONTRACT RESEARCH AGREEMENT,0.9032,0.5,high_string_similarity
+the Contract Research Agreement,the “Contract Research Amendment,THE CONTRACT RESEARCH AGREEMENT,THE CONTRACT RESEARCH AMENDMENT,0.9032,0.5,high_string_similarity
+the Zhou Employment Agreement,the Employment Agreements,THE ZHOU EMPLOYMENT AGREEMENT,THE EMPLOYMENT AGREEMENTS,0.8889,0.5,high_string_similarity
+British Society of Gastroenterology,the British Society of Gastroenterology,BRITISH SOCIETY OF GASTROENTEROLOGY,THE BRITISH SOCIETY OF GASTROENTEROLOGY,0.9459,0.6,very_high_string_similarity_but_not_exact
+hydrogel,Hydrogen,HYDROGEL,HYDROGEN,0.875,0.5,high_string_similarity
+Term Loan Credit Agreement,the Term Loan Credit Agreement,TERM LOAN CREDIT AGREEMENT,THE TERM LOAN CREDIT AGREEMENT,0.9286,0.6,very_high_string_similarity_but_not_exact
+Term Loan Credit Agreement,the Term Loan Credit Agreement,TERM LOAN CREDIT AGREEMENT,THE TERM LOAN CREDIT AGREEMENT,0.9286,0.6,very_high_string_similarity_but_not_exact
+Dengue/Chikungunya,Dengue/Chikungunya/Zika,DENGUE CHIKUNGUNYA,DENGUE CHIKUNGUNYA ZIKA,0.878,0.5,high_string_similarity
+C D. WIPO,B D. WIPO,C D WIPO,B D WIPO,0.875,0.5,high_string_similarity
+Kuder Richardson 20,the Kuder Richardson 20,KUDER RICHARDSON 20,THE KUDER RICHARDSON 20,0.9048,0.5,high_string_similarity
+the Cause of Death Ensemble,GBD Cause of Death Ensemble,THE CAUSE OF DEATH ENSEMBLE,GBD CAUSE OF DEATH ENSEMBLE,0.8889,0.5,high_string_similarity
+the Cause of Death Ensemble,a Cause of Death Ensemble,THE CAUSE OF DEATH ENSEMBLE,A CAUSE OF DEATH ENSEMBLE,0.9231,0.6,very_high_string_similarity_but_not_exact
+GBD Cause of Death Ensemble,a Cause of Death Ensemble,GBD CAUSE OF DEATH ENSEMBLE,A CAUSE OF DEATH ENSEMBLE,0.9231,0.6,very_high_string_similarity_but_not_exact
+the International Classification of Diseases,International Classification of Diseases,THE INTERNATIONAL CLASSIFICATION OF DISEASES,INTERNATIONAL CLASSIFICATION OF DISEASES,0.9524,0.6,very_high_string_similarity_but_not_exact
+the Fractional Flow Reserve,Fractional Flow Reserve,THE FRACTIONAL FLOW RESERVE,FRACTIONAL FLOW RESERVE,0.92,0.6,very_high_string_similarity_but_not_exact
+Veteran Affairs,Veterans Affairs,VETERAN AFFAIRS,VETERANS AFFAIRS,0.9677,0.6,very_high_string_similarity_but_not_exact
+American Society of Metabolic,American Society for Metabolic,AMERICAN SOCIETY OF METABOLIC,AMERICAN SOCIETY FOR METABOLIC,0.9492,0.6,very_high_string_similarity_but_not_exact
