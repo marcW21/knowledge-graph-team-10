@@ -74,8 +74,11 @@ Using BioBERT/PubMedBERT with spaCy is our original idea. However, our main bott
 - For manual review,
   files `data/processed/invalid_rows_*.csv`, and `outputs/entity_resolution/review_queue_*.csv` need further review process.
 
-### 😺 For our demo
-Replace `*` with `entityruler_stage1_merged`.
+### 😺 A easy guidance for our demo
+- Script to run: `run_entityruler_opt_stage1_merged.ipynb`
+- Raw data: `data/raw/stage1_records_merged.csv`
+- Codes: `src/preprocess.py`, `src/ner_spacy_entityruler.py`, `src/resolve_alias.py`, `src/extract_candidate_relations_opt4merged.py`
+- Outputs: `outputs/ner/ner_results_stage1_entityruler.csv`, `resolved_entities_entityruler_stage1_merged.csv` (not yet uploaded due to size), `review_queue_entityruler_stage1_merged.csv`, `candidate_relations_opt_entityruler_stage1_merged`
 
 ### 😸 For mock
 Replace `*` with `entityruler_mock2`.
