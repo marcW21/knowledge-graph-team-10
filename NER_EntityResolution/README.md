@@ -69,7 +69,13 @@ Experiments and comparison analysis are completed using `mock/data/mock2_input.c
 Using BioBERT/PubMedBERT with spaCy is our original idea. However, our main bottleneck is company/ORG extraction rather than biomedical entity extraction. At this stage, EntityRuler is a better fit since it can directly leverage `company_seed` list and its common name variants, which improves company-name recall more effectively.
 
 ## 🎃 Final deliverable!
-- For the next step - LLM validation and confidence scoring, use files `outputs/entity_resolution/resolved_entities_stage1.csv`, `outputs/relations/candidate_relations_stage1.csv`. File `outputs/ner/ner_results_stage1.csv` can also be used for reference.
-  
+- For the next step - LLM validation and confidence scoring,
+  use files `outputs/entity_resolution/resolved_entities_*.csv`, `outputs/relations/candidate_relations_*.csv`. File `outputs/ner/ner_results_*.csv` can also be used for reference.
 - For manual review,
-  Files `data/processed/invalid_rows_stage1.csv`, and `outputs/entity_resolution/review_queue_stage1.csv` need further review process.
+  files `data/processed/invalid_rows_*.csv`, and `outputs/entity_resolution/review_queue_*.csv` need further review process.
+
+### 😺 For our demo
+Replace `*` with `entityruler_stage1_merged`.
+
+### 😺 For mock
+Replace `*` with `entityruler_mock2`.
