@@ -2,6 +2,12 @@
 
 # we can improve this model by editting the hyper paramters and use more models
 # right now the confidence scoring is just based on fix value
+
+# several problems:
+# since lack of ground truth, I fixed the strength map and confidence score weight
+# but after getting enough data, we can atually train it by using logistic regresion to get better weight
+# Short sentences lose context 
+# since NER extractions are fragments but the model needs surrounding paragraphs
 from __future__ import annotations
 import json
 import logging
@@ -62,6 +68,24 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
+# Instead of asking models to self-report a free-form confidence score (0.0–1.0),
+# we ask them to classify evidence strength into four ordinal categories and map
+# those categories to fixed numeric scores ourselves. This eliminates calibration
+# mismatch between GPT-4o and Claude each model has its own internal scale for
+# what "0.8 confidence" means, making raw averages mathematically meaningless.
+# Equal-interval spacing (0, 0.33, 0.67, 1.0) is used as the default because we
+# have no labeled ground truth to fit a more precise mapping.
+
+# but the probelem is the number here has no meaning,
+# we just choose it by default
+# to make it better, we have to use logistic regression to get tehse value
+# by doing train and test
+STRENGTH_MAP: dict[str, float] = {
+    "strong":   1.0,
+    "moderate": 0.67,
+    "weak":     0.33,
+    "none":     0.0,
+}
 
 _SYSTEM_PROMPT = (
     "You are a biotech and pharmaceutical document analyst. "
@@ -82,7 +106,9 @@ def _build_user_prompt(row: pd.Series) -> str:
         f"  Entity B : {row['entity_b']}\n\n"
         "Based solely on the evidence text above, does this relationship hold?\n"
         "Reply with ONLY a JSON object — no markdown, no extra text:\n"
-        '{"valid": true or false, "confidence": 0.0-1.0, "reasoning": "one sentence"}'
+        '{"valid": true or false, '
+        '"evidence_strength": "strong" or "moderate" or "weak" or "none", '
+        '"reasoning": "one sentence"}'
     )
 
 
@@ -116,7 +142,7 @@ def validate_with_gpt4o(
         except Exception as exc:
             if attempt == retries:
                 log.warning("GPT-4o failed (row %s): %s", row.get("source_id"), exc)
-                return {"valid": None, "confidence": 0.0, "reasoning": f"error: {exc}"}
+                return {"valid": None, "evidence_strength": "none", "reasoning": f"error: {exc}"}
             time.sleep(2**attempt)
 
 
@@ -136,9 +162,8 @@ def validate_with_claude(
         except Exception as exc:
             if attempt == retries:
                 log.warning("Claude failed (row %s): %s", row.get("source_id"), exc)
-                return {"valid": None, "confidence": 0.0, "reasoning": f"error: {exc}"}
+                return {"valid": None, "evidence_strength": "none", "reasoning": f"error: {exc}"}
             time.sleep(2**attempt)
-
 
 
 def _recency_score(date_str: str) -> float:
@@ -168,13 +193,17 @@ def _add_corroboration_counts(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def _model_agreement_ratio(
-    gpt_valid: Optional[bool], claude_valid: Optional[bool]
+    gpt_strength: Optional[str], claude_strength: Optional[str]
 ) -> float:
-    """Fraction of non-errored LLMs that marked the relation as valid."""
-    votes = [v for v in (gpt_valid, claude_valid) if v is not None]
-    if not votes:
+    """Average mapped strength score across non-errored models."""
+    scores = [
+        STRENGTH_MAP.get(s, 0.0)
+        for s in (gpt_strength, claude_strength)
+        if s is not None
+    ]
+    if not scores:
         return 0.0
-    return sum(bool(v) for v in votes) / len(votes)
+    return sum(scores) / len(scores)
 
 
 def _weighted_confidence(
@@ -240,7 +269,7 @@ def run(
 
         src_auth = SOURCE_AUTHORITY.get(str(row["source_type"]).strip().upper(), 0.5)
         rec = _recency_score(row["date"])
-        agreement = _model_agreement_ratio(gpt["valid"], claude["valid"])
+        agreement = _model_agreement_ratio(gpt.get("evidence_strength"), claude.get("evidence_strength"))
         final_conf = _weighted_confidence(
             src_auth, int(row["corroboration_count"]), agreement, rec
         )
@@ -250,11 +279,11 @@ def run(
                 **row.to_dict(),
                 # GPT-4o results
                 "gpt4o_valid": gpt["valid"],
-                "gpt4o_confidence": gpt["confidence"],
+                "gpt4o_evidence_strength": gpt.get("evidence_strength"),
                 "gpt4o_reasoning": gpt["reasoning"],
                 # Claude results
                 "claude_valid": claude["valid"],
-                "claude_confidence": claude["confidence"],
+                "claude_evidence_strength": claude.get("evidence_strength"),
                 "claude_reasoning": claude["reasoning"],
                 # Confidence components
                 "source_authority_score": src_auth,
