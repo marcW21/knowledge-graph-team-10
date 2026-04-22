@@ -1,0 +1,1 @@
+source_id,source_type,raw_text,source_url,date,company_seed,source_type_cleaned,raw_text_cleaned,source_url_cleaned,date_cleaned,company_seed_cleaned,company_seed_invalid,company_seed_invalid_reason,row_invalid_reasons,row_valid_for_ner
