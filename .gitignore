@@ -1,1 +1,4 @@
 .env
+src/__pycache__/constants.cpython-312.pyc
+src/__pycache__/preprocess.cpython-312.pyc
+.gitignore
