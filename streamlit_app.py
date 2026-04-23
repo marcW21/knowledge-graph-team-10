@@ -480,12 +480,49 @@ with st.expander("**STAGE 04 — Relation Extraction**",
                 st.warning("No candidate relations found. Try enabling more sources or increasing N.")
             else:
                 rel_counts = cand_df["candidate_relation"].value_counts().to_dict() if "candidate_relation" in cand_df.columns else {}
-                pills = (metric_html(len(cand_df), "candidates") +
+                # pills show raw count; clean count shown after filter runs below
+                pills = (metric_html(len(cand_df), "raw candidates") +
                          "".join(metric_html(v, k) for k, v in rel_counts.items()))
                 st.markdown(f'<div class="metric-row">{pills}</div>', unsafe_allow_html=True)
 
-                # Show as cards (first 15)
-                display_df = cand_df.head(15)
+                # Show as cards — filter to plausible company-company pairs first
+                _JUNK_PATTERNS = [
+                    r"^https?://", r"^the\s+\w+\s+agreement", r"^\d+",
+                    r"\bCFR\b", r"\bSEC\b", r"^Indicate$", r"^Item\s+\d",
+                    r"jurisdiction of incorporation", r"audit committee",
+                    r"board of directors", r"proxy statement",
+                    r"^Material\s+Definitive", r"^Amendment",
+                ]
+                import re as _re
+                def _looks_real(name: str) -> bool:
+                    n = name.strip()
+                    if len(n) < 4 or len(n) > 120:
+                        return False
+                    for pat in _JUNK_PATTERNS:
+                        if _re.search(pat, n, _re.IGNORECASE):
+                            return False
+                    # must contain at least one letter sequence of length >= 3
+                    return bool(_re.search(r"[A-Za-z]{3,}", n))
+
+                clean_cand = cand_df[
+                    cand_df["entity_a"].apply(lambda x: _looks_real(str(x))) &
+                    cand_df["entity_b"].apply(lambda x: _looks_real(str(x))) &
+                    (cand_df["entity_a"].astype(str) != cand_df["entity_b"].astype(str))
+                ].copy()
+                st.session_state["stage4_df"] = clean_cand  # update with filtered set for Stage 5
+
+                # Update pills now that we know filtered count
+                clean_counts = clean_cand["candidate_relation"].value_counts().to_dict() if "candidate_relation" in clean_cand.columns else {}
+                st.markdown(
+                    f'<div class="metric-row">' +
+                    metric_html(len(clean_cand), "clean candidates") +
+                    metric_html(len(cand_df) - len(clean_cand), "filtered out") +
+                    "".join(metric_html(v, k) for k, v in clean_counts.items()) +
+                    '</div>',
+                    unsafe_allow_html=True,
+                )
+
+                display_df = clean_cand.head(15)
                 for _, row in display_df.iterrows():
                     ev = textwrap.shorten(str(row.get("evidence_text", "")), width=140, placeholder="…")
                     rel_color_map = {
@@ -512,7 +549,7 @@ with st.expander("**STAGE 04 — Relation Extraction**",
 # ═══════════════════════════════════════════════════════════════════════════════
 st.markdown('<hr class="stage-divider">', unsafe_allow_html=True)
 with st.expander("**STAGE 05 — LLM Cross-Validation**",
-                 expanded=st.session_state["stage4_df"] is not None and len(st.session_state["stage4_df"] or []) > 0):
+                 expanded=(st.session_state["stage4_df"] is not None and len(st.session_state["stage4_df"]) > 0)):
 
     st.markdown('<div class="stage-num">05 / LLM CROSS-VALIDATION</div>', unsafe_allow_html=True)
 
