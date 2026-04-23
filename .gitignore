@@ -2,3 +2,34 @@
 src/__pycache__/constants.cpython-312.pyc
 src/__pycache__/preprocess.cpython-312.pyc
 .gitignore
+
+# Secrets — never commit
+.streamlit/secrets.toml
+streamlit/secrets.toml
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Data outputs (can be large)
+data/raw/
+data/processed/
+outputs/
+
+# Virtualenv
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+secrets.toml.template
