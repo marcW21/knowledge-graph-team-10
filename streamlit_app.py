@@ -150,8 +150,8 @@ html, body, [class*="css"] {
 
 /* Relation card */
 .rel-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: #0d1f3c;
+    border: 1px solid #1e3a5f;
     border-left: 3px solid #4a9eff;
     border-radius: 6px;
     padding: 10px 14px;
@@ -160,18 +160,18 @@ html, body, [class*="css"] {
 }
 .rel-card .entities {
     font-family: 'IBM Plex Mono', monospace;
-    color: #e8f4ff;
+    color: #e8f4ff !important;
     font-size: 0.82rem;
 }
 .rel-card .rel-type {
-    color: #4a9eff;
+    color: #4a9eff !important;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.72rem;
     letter-spacing: 1px;
     margin: 2px 0;
 }
 .rel-card .evidence {
-    color: #7aa8cc;
+    color: #a8c8e8 !important;
     font-size: 0.78rem;
     margin-top: 4px;
     font-style: italic;
@@ -203,18 +203,6 @@ html, body, [class*="css"] {
 .conf-bar-wrap { background:#0d1f3c; border-radius:4px; height:8px; width:100%; margin-top:4px; }
 .conf-bar { height:8px; border-radius:4px; }
 
-/* Horizontal scroll for all dataframes */
-[data-testid="stDataFrame"] > div {
-    overflow-x: auto !important;
-}
-[data-testid="stDataFrame"] iframe {
-    width: 100% !important;
-    min-width: 0 !important;
-}
-div[data-testid="stDataFrameResizable"] {
-    overflow-x: auto !important;
-    width: 100% !important;
-}
 </style>
 """, unsafe_allow_html=True)
 
@@ -351,7 +339,7 @@ with st.expander("**STAGE 01 — Data Collection**", expanded=True):
         st.markdown(f'<div class="metric-row">{pills}</div>', unsafe_allow_html=True)
         display1 = df1[["source_id", "company_seed", "source_type", "date", "raw_text"]].head(50).copy()
         display1["raw_text"] = display1["raw_text"].astype(str).str[:200] + "…"
-        st.dataframe(display1, height=220,
+        st.dataframe(display1, use_container_width=True, height=220,
                      column_config={
                          "source_id":    st.column_config.NumberColumn("ID", width="small"),
                          "company_seed": st.column_config.TextColumn("Company", width="medium"),
@@ -408,7 +396,7 @@ with st.expander("**STAGE 02 — Preprocessing + NER**",
             st.markdown(f'<div class="metric-row">{pills}</div>', unsafe_allow_html=True)
             show_cols = [c for c in ["source_id", "company_seed", "raw_mention",
                                       "entity_label", "start_char", "source_type"] if c in ner_df.columns]
-            st.dataframe(ner_df[show_cols].head(50), height=220)
+            st.dataframe(ner_df[show_cols].head(50), use_container_width=True, height=220)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # STAGE 3 — Entity Resolution
@@ -450,12 +438,12 @@ with st.expander("**STAGE 03 — Entity Resolution**",
             with tab_res:
                 show_cols = [c for c in ["raw_mention", "canonical_name", "merge_decision",
                                           "merge_confidence", "evidence_note"] if c in res_df.columns]
-                st.dataframe(res_df[show_cols].head(50), height=220)
+                st.dataframe(res_df[show_cols].head(50), use_container_width=True, height=220)
             with tab_rev:
                 if len(rev_df) == 0:
                     st.info("No pairs flagged for review.")
                 else:
-                    st.dataframe(rev_df.head(30), height=200)
+                    st.dataframe(rev_df.head(30), use_container_width=True, height=200)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # STAGE 4 — Relation Extraction
@@ -505,6 +493,20 @@ with st.expander("**STAGE 04 — Relation Extraction**",
                     r"jurisdiction of incorporation", r"audit committee",
                     r"board of directors", r"proxy statement",
                     r"^Material\s+Definitive", r"^Amendment",
+                    # Regulatory / government bodies
+                    r"securities and exchange commission",
+                    r"food and drug administration",
+                    r"federal trade commission",
+                    r"department of (health|justice|energy|defense|commerce)",
+                    r"\bFDA\b", r"\bFTC\b", r"\bDOJ\b", r"\bNIH\b",
+                    r"\bEMA\b", r"\bWHO\b", r"\bCDC\b",
+                    r"united states (district|securities|department)",
+                    r"^United States$",
+                    # Boilerplate fragments
+                    r"^Exchange Act$", r"^Securities Act$",
+                    r"^Common Stock$", r"^(Class [AB] )?Common",
+                    r"^Exhibit\s+\d", r"^Form\s+(8|10|S)-",
+                    r"nasdaq|new york stock exchange|nyse",
                 ]
                 import re as _re
                 def _looks_real(name: str) -> bool:
@@ -547,11 +549,11 @@ with st.expander("**STAGE 04 — Relation Extraction**",
                     rel_color = rel_color_map.get(rel, "#7aa8cc")
                     st.markdown(f"""
                     <div class="rel-card">
-                      <div class="entities">
-                        {row.get('entity_a','?')} <span style="color:{rel_color}"> ──{rel}──▶ </span> {row.get('entity_b','?')}
+                      <div style="font-family:'IBM Plex Mono',monospace;color:#e8f4ff;font-size:0.82rem;">
+                        {row.get('entity_a','?')} <span style="color:{rel_color};font-weight:600;"> ──{rel}──▶ </span> {row.get('entity_b','?')}
                       </div>
-                      <div class="evidence">"{ev}"</div>
-                      <div style="font-size:0.7rem;color:#4a6680;margin-top:4px;">
+                      <div style="color:#a8c8e8;font-size:0.78rem;margin-top:4px;font-style:italic;">"{ev}"</div>
+                      <div style="font-size:0.7rem;color:#7aa8cc;margin-top:4px;">
                         {row.get('source_type','')} · {row.get('date','')}
                       </div>
                     </div>
