@@ -7,4 +7,8 @@ openai>=1.25.0
 python-dotenv>=1.0.0
 ftfy>=6.1.3
 python-dateutil>=2.9.0
+beautifulsoup4>=4.12.0
+requests>=2.31.0
+lxml>=5.0.0
 en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
+neo4j>=5.0.0
