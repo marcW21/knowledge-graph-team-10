@@ -1,7 +1,8 @@
 streamlit>=1.35.0
-pandas>=2.0.0
+numpy==1.26.4
+pandas==2.2.2
 pyvis>=0.3.2
-spacy>=3.7.0
+spacy==3.7.4
 anthropic>=0.25.0
 openai>=1.25.0
 python-dotenv>=1.0.0
@@ -10,5 +11,5 @@ python-dateutil>=2.9.0
 beautifulsoup4>=4.12.0
 requests>=2.31.0
 lxml>=5.0.0
-en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
 neo4j>=5.0.0
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
