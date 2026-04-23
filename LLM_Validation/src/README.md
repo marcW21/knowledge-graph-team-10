@@ -1,110 +1,179 @@
-# Multi-LLM Relation Validation Pipeline
+# Multi-LLM Relation Validator
 
-Validates candidate company relationships extracted by an NER pipeline using dual-model LLM verification (GPT-4o + Claude) and a weighted confidence scoring system. Designed for the CSL Behring knowledge graph project, where entities and relations are sourced from USPTO, SEC EDGAR, PubMed, and OpenCorporates.
-
----
-
-## What It Does
-
-1. **Loads candidate relations** from a CSV produced by the upstream NER/entity-resolution pipeline. Each row represents a proposed triple: `entity_a → relation → entity_b`, along with an evidence text snippet and source metadata.
-
-2. **Validates each relation with two LLMs independently** — GPT-4o and Claude — using the same structured prompt. Each model returns:
-   - `valid`: whether the relation is supported by the evidence text
-   - `evidence_strength`: one of `strong`, `moderate`, `weak`, or `none`
-   - `reasoning`: a one-sentence explanation
-
-3. **Computes a weighted confidence score** (0.0–1.0) for each relation from four components:
-
-   | Component | Weight | Description |
-   |---|---|---|
-   | Model agreement | 40% | Average mapped strength score from both models |
-   | Source authority | 25% | Fixed trust score per source type (SEC=1.0, USPTO=0.9, etc.) |
-   | Corroboration | 20% | How many distinct sources support the same triple (capped at 3) |
-   | Recency | 15% | Exponential decay based on source date (48-month half-life) |
-
-4. **Flags a random audit sample** (~7%) of high-confidence rows (≥0.70) for human review.
-
-5. **Saves output** to a timestamped CSV with all model outputs, component scores, and audit flags appended.
+Validates candidate company relationships extracted by an NER pipeline using dual-model cross-validation (GPT-4o + Claude Sonnet). Each relation is scored for confidence, bucketed into an auto-accept / auto-reject / review queue, and a random sample of high-confidence rows is flagged for human audit.
 
 ---
 
-## Key Design Decisions
+## Overview
 
-**Ordinal strength categories instead of raw confidence floats**
-Rather than asking each model to self-report a numeric confidence score, the prompt asks for a categorical strength label (`strong`, `moderate`, `weak`, `none`). These are then mapped to fixed values (1.0, 0.67, 0.33, 0.0). This avoids the calibration mismatch where GPT-4o and Claude use different internal scales for what "0.8 confidence" means.
-
-**Fixed hyperparameters (known limitation)**
-The strength-to-score mapping, source authority values, and SCORE_WEIGHTS are manually set due to the absence of labeled ground truth. The comments in the code note that logistic regression on labeled data would yield more defensible weights once enough validated examples are available.
-
-**Short evidence text limitation**
-NER extractions are sentence fragments. The model's judgment is constrained by whatever snippet is in `evidence_text`, without surrounding paragraph context. This can cause valid relationships to appear weakly supported.
-
----
-
-## Configuration
-
-All tunable parameters are at the top of the file:
-
-```python
-RECENCY_HALF_LIFE_MONTHS = 48     # How quickly older sources decay in score
-HIGH_CONFIDENCE_THRESHOLD = 0.70  # Cutoff for "high confidence" classification
-AUDIT_RATE = 0.07                 # Fraction of high-conf rows flagged for review
-CLAUDE_MODEL = "claude-sonnet-4-6"
-GPT_MODEL = "gpt-4o"
+```
+candidate_relations.csv
+        │
+        ▼
+┌───────────────────┐     ┌───────────────────┐
+│     GPT-4o        │     │  Claude Sonnet     │
+│  (validate_with_  │     │  (validate_with_   │
+│    gpt4o)         │     │    claude)         │
+└────────┬──────────┘     └────────┬───────────┘
+         │                         │
+         └──────────┬──────────────┘
+                    ▼
+         Confidence Scoring
+         (model agreement × 0.40
+          source authority × 0.25
+          corroboration   × 0.20
+          recency         × 0.15)
+                    │
+                    ▼
+        ┌───────────────────────┐
+        │  auto_accept          │  both valid + high confidence
+        │  auto_reject          │  both invalid + high confidence
+        │  review               │  disagree / error / low confidence
+        └───────────────────────┘
+                    │
+                    ▼
+        validated_relations_<timestamp>.csv
 ```
 
-Source authority scores and score component weights (`SCORE_WEIGHTS`) are also defined near the top and can be adjusted.
-
 ---
 
-## Input Format
+## Confidence Scoring
 
-CSV with at minimum these columns:
+Each relation receives a `final_confidence` score in [0, 1]:
 
-| Column | Description |
+| Component | Weight | Description |
+|---|---|---|
+| `model_agreement` | 0.40 | Whether GPT-4o and Claude agree the relation is valid; scaled by average evidence strength |
+| `source_authority` | 0.25 | Trust score by source type (SEC=1.0, USPTO=0.9, PubMed=0.8, …) |
+| `corroboration` | 0.20 | Number of distinct source docs supporting the same (A, relation, B) triple, normalized at 3 |
+| `recency` | 0.15 | Exponential decay with 48-month half-life from the document date |
+
+A separate `rejection_confidence` score is computed for the auto-reject path, replacing the strength-weighted model component with `(1 - valid_agreement)`.
+
+### Decision Buckets
+
+| Bucket | Condition |
 |---|---|
-| `entity_a` | First entity in the relation |
-| `candidate_relation` | Relation type (e.g., `PARTNER_OF`, `ACQUIRED_BY`) |
-| `entity_b` | Second entity in the relation |
-| `evidence_text` | Text snippet used to support the relation |
-| `source_type` | One of `SEC`, `USPTO`, `PUBMED`, `OPENCORPORATES`, `UNKNOWN` |
-| `source_id` | Unique identifier for the source document |
-| `date` | Source date in `YYYY-MM` format |
+| `auto_accept` | Both models valid **and** `final_confidence ≥ 0.70` |
+| `auto_reject` | Both models invalid **and** `rejection_confidence ≥ 0.70` |
+| `review` | Disagreement, API error, or low confidence |
+
+7% of high-confidence rows are randomly flagged (`audit_flag = True`) for quality sampling.
 
 ---
 
-## Output Format
+## Known Limitations
 
-Same columns as input, with these appended:
+- **Fixed weights**: Score weights and the strength map are manually tuned. With enough labeled ground truth, these can be learned via logistic regression for better calibration.
+- **Short sentences lose context**: NER extractions are often sentence fragments. The models perform better when the surrounding paragraph is included as evidence.
+- **No ground truth**: The current confidence formula is a heuristic. Precision/recall cannot be measured without labeled data.
 
-- `gpt4o_valid`, `gpt4o_evidence_strength`, `gpt4o_reasoning`
-- `claude_valid`, `claude_evidence_strength`, `claude_reasoning`
-- `source_authority_score`, `recency_score`, `model_agreement_ratio`
-- `final_confidence`
-- `audit_flag`
+---
+
+## Setup
+
+```bash
+pip install anthropic openai pandas
+```
+
+Set API keys as environment variables:
+
+```bash
+export OPENAI_API_KEY=sk-...
+export ANTHROPIC_API_KEY=sk-ant-...
+```
 
 ---
 
 ## Usage
 
-```python
-from pathlib import Path
-from validation_pipeline import run
+**Default run** (reads from the pre-configured input path):
 
-results = run(
-    input_csv=Path("path/to/candidate_relations.csv"),
+```bash
+python validate_relations.py
+```
+
+**Programmatic use:**
+
+```python
+from validate_relations import run
+from pathlib import Path
+
+df = run(
+    input_csv=Path("my_candidates.csv"),
     output_dir=Path("outputs/"),
-    openai_api_key="...",
-    anthropic_api_key="...",
+    random_seed=42,
 )
 ```
 
-API keys can also be set via environment variables `OPENAI_API_KEY` and `ANTHROPIC_API_KEY`.
+### Input CSV
+
+Required columns:
+
+| Column | Description |
+|---|---|
+| `entity_a` | First entity in the candidate relation |
+| `candidate_relation` | Relation type (e.g., `ACQUIRED`, `LICENSED_FROM`) |
+| `entity_b` | Second entity |
+| `evidence_text` | Source text the relation was extracted from |
+| `source_type` | One of `SEC`, `USPTO`, `PUBMED`, `OPENCORPORATES`, `UNKNOWN` |
+| `source_id` | Unique identifier for the source document |
+| `date` | Document date (accepts `YYYY-MM-DD`, `YYYY-MM`, `Mon-YY`, `Month YYYY`, `YYYY`) |
+
+### Output CSV
+
+All input columns plus:
+
+| Column | Description |
+|---|---|
+| `gpt4o_valid` | Boolean (or `None` on API error) |
+| `gpt4o_evidence_strength` | `strong` / `moderate` / `weak` / `none` |
+| `gpt4o_reasoning` | One-sentence explanation |
+| `claude_valid` | Boolean (or `None` on API error) |
+| `claude_evidence_strength` | Same scale |
+| `claude_reasoning` | One-sentence explanation |
+| `source_authority_score` | Float from SOURCE_AUTHORITY map |
+| `recency_score` | Exponential decay score |
+| `model_valid_agreement` | 1.0 / 0.5 / 0.0 |
+| `model_strength_score` | Average mapped evidence strength |
+| `model_had_error` | True if at least one model API call failed |
+| `final_confidence` | Weighted acceptance confidence |
+| `rejection_confidence` | Weighted rejection confidence |
+| `decision_bucket` | `auto_accept` / `auto_reject` / `review` |
+| `audit_flag` | Boolean — row selected for random audit |
+| `corroboration_count` | Number of distinct sources for this (A, rel, B) triple |
 
 ---
 
-## Known Limitations & Future Work
+## Configuration
 
-- **No ground truth**: confidence weights are heuristic. Training a logistic regression classifier on human-labeled triples would significantly improve score calibration.
-- **Context window**: evidence snippets lack surrounding context, which can under-inform the models on valid relations.
-- **Single reference date**: `REFERENCE_DATE` is set at import time, so recency scores shift slightly depending on when the script runs.
+All tunable constants are at the top of the file:
+
+```python
+RECENCY_HALF_LIFE_MONTHS = 48       # Decay rate for document age
+HIGH_CONFIDENCE_THRESHOLD = 0.70    # Minimum score for auto-accept/reject
+AUDIT_RATE = 0.07                   # Fraction of high-conf rows flagged for audit
+CLAUDE_MODEL = "claude-sonnet-4-6"
+GPT_MODEL = "gpt-4o"
+
+SOURCE_AUTHORITY = {
+    "SEC": 1.0, "USPTO": 0.9, "OPENCORPORATES": 0.85,
+    "PUBMED": 0.8, "UNKNOWN": 0.5,
+}
+
+SCORE_WEIGHTS = {
+    "model_agreement": 0.40,
+    "source_authority": 0.25,
+    "corroboration": 0.20,
+    "recency": 0.15,
+}
+```
+
+---
+
+## Future Improvements
+
+- Replace fixed weights with logistic regression trained on labeled ground truth
+- Include surrounding paragraph context in evidence prompts to improve model accuracy on short extractions
+- Add a batch/async mode to reduce wall-clock time for large CSVs
+- Integrate directly into the Neo4j ingestion pipeline to write accepted relations in one pass

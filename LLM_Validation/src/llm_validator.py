@@ -23,12 +23,15 @@ import anthropic
 import openai
 import pandas as pd
 
+from dotenv import load_dotenv
+load_dotenv()
+
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_INPUT = (
     ROOT
-    / "NER_EntityResolution/outputs/relations"
-    / "candidate_relations_opt_entityruler_stage1_merged.csv"
+    / "outputs/relations"
+    / "candidate_relations_run.csv"
 )
 OUTPUT_DIR = Path(__file__).resolve().parents[1] / "outputs"
 
