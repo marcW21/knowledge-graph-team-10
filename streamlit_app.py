@@ -337,16 +337,16 @@ with st.expander("**STAGE 01 — Data Collection**", expanded=True):
         pills = "".join(metric_html(v, k) for k, v in counts.items())
         pills += metric_html(len(df1), "total rows")
         st.markdown(f'<div class="metric-row">{pills}</div>', unsafe_allow_html=True)
-        display1 = df1[["source_id", "company_seed", "source_type", "date", "raw_text"]].head(50).copy()
-        display1["raw_text"] = display1["raw_text"].astype(str).str[:200] + "…"
-        st.dataframe(display1, use_container_width=True, height=220,
-                     column_config={
-                         "source_id":    st.column_config.NumberColumn("ID", width="small"),
-                         "company_seed": st.column_config.TextColumn("Company", width="medium"),
-                         "source_type":  st.column_config.TextColumn("Source", width="small"),
-                         "date":         st.column_config.TextColumn("Date", width="small"),
-                         "raw_text":     st.column_config.TextColumn("Raw Text", width="large"),
-                     })
+        st.dataframe(
+            df1[["source_id", "company_seed", "source_type", "date", "raw_text"]].head(50),
+            use_container_width=True, height=220,
+            column_config={
+                "source_id":    st.column_config.NumberColumn("ID", width="small"),
+                "company_seed": st.column_config.TextColumn("Company", width="medium"),
+                "source_type":  st.column_config.TextColumn("Source", width="small"),
+                "date":         st.column_config.TextColumn("Date", width="small"),
+                "raw_text":     st.column_config.TextColumn("Raw Text", width="large"),
+            })
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # STAGE 2 — Preprocessing + NER
