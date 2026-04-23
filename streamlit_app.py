@@ -487,42 +487,73 @@ with st.expander("**STAGE 04 — Relation Extraction**",
                 st.markdown(f'<div class="metric-row">{pills}</div>', unsafe_allow_html=True)
 
                 # Show as cards — filter to plausible company-company pairs first
-                _JUNK_PATTERNS = [
-                    r"^https?://", r"^the\s+\w+\s+agreement", r"^\d+",
-                    r"\bCFR\b", r"\bSEC\b", r"^Indicate$", r"^Item\s+\d",
-                    r"jurisdiction of incorporation", r"audit committee",
-                    r"board of directors", r"proxy statement",
-                    r"^Material\s+Definitive", r"^Amendment",
-                    # Regulatory / government bodies
+                import re as _re
+
+                # ── Entity-level junk filter ──────────────────────────────────
+                _JUNK_ENT = [
+                    r"^https?://",                          # URLs
+                    r"^\d",                                 # starts with digit
+                    r"^the\s+\w",                          # "the Federal...", "the Court..."
+                    r"\bstreet\b|\bavenue\b|\bdrive\b|\blane\b|\bblvd\b",  # addresses
+                    r"\bCFR\b|\bSEC\b|\bFDA\b|\bFTC\b|\bDOJ\b|\bNIH\b|\bEMA\b|\bWHO\b|\bCDC\b",
                     r"securities and exchange commission",
                     r"food and drug administration",
-                    r"federal trade commission",
+                    r"federal (trade|circuit|register|reserve)",
+                    r"court of appeals",
                     r"department of (health|justice|energy|defense|commerce)",
-                    r"\bFDA\b", r"\bFTC\b", r"\bDOJ\b", r"\bNIH\b",
-                    r"\bEMA\b", r"\bWHO\b", r"\bCDC\b",
-                    r"united states (district|securities|department)",
+                    r"united states (district|securities|department|government)",
                     r"^United States$",
-                    # Boilerplate fragments
-                    r"^Exchange Act$", r"^Securities Act$",
-                    r"^Common Stock$", r"^(Class [AB] )?Common",
-                    r"^Exhibit\s+\d", r"^Form\s+(8|10|S)-",
-                    r"nasdaq|new york stock exchange|nyse",
+                    r"private securities litigation",
+                    r"securities litigation reform",
+                    r"^(Exchange|Securities|Sarbanes|Dodd.Frank) Act",
+                    r"^Common Stock|^Class [AB] Common",
+                    r"^Exhibit\s+\d|^Form\s+(8|10|S)-",
+                    r"nasdaq|new york stock exchange|\bNYSE\b",
+                    r"audit committee|board of directors|proxy statement",
+                    r"jurisdiction of incorporation",
+                    r"^Material\s+Definitive|^Amendment$|^Indicate$",
+                    r"^Item\s+\d|^Pursuant",
+                    r"/",                                   # slash-fused names like Arbutus/Genevant
+                    r"®|™",                                  # product/trademark symbols
+                    r"SIGNATURES",
+                    r"^(Cover Page|Interactive Data)",
                 ]
-                import re as _re
+
+                # ── Evidence-level boilerplate filter ─────────────────────────
+                # If the evidence text IS the SEC filing header blob, the
+                # document-level fallback fired with no real sentence signal.
+                _BOILERPLATE_SIGNALS = [
+                    r"\d{10}\s+false\s+\d{10}",         # EDGAR CIK pattern
+                    r"UNITED STATES SECURITIES AND EXCHANGE COMMISSION",
+                    r"Washington,? D\.?C\.? 20549",
+                    r"Current Report on Form 8-K",
+                ]
+
                 def _looks_real(name: str) -> bool:
                     n = name.strip()
-                    if len(n) < 4 or len(n) > 120:
+                    if len(n) < 4 or len(n) > 100:
                         return False
-                    for pat in _JUNK_PATTERNS:
+                    for pat in _JUNK_ENT:
                         if _re.search(pat, n, _re.IGNORECASE):
                             return False
-                    # must contain at least one letter sequence of length >= 3
                     return bool(_re.search(r"[A-Za-z]{3,}", n))
+
+                def _evidence_is_real(ev: str) -> bool:
+                    """Return False if the evidence is just a filing header blob."""
+                    for pat in _BOILERPLATE_SIGNALS:
+                        if _re.search(pat, str(ev), _re.IGNORECASE):
+                            return False
+                    # Evidence should be a sentence, not a metadata dump —
+                    # real sentences are under ~800 chars and contain a verb
+                    if len(str(ev)) > 800:
+                        return False
+                    return True
 
                 clean_cand = cand_df[
                     cand_df["entity_a"].apply(lambda x: _looks_real(str(x))) &
                     cand_df["entity_b"].apply(lambda x: _looks_real(str(x))) &
-                    (cand_df["entity_a"].astype(str) != cand_df["entity_b"].astype(str))
+                    (cand_df["entity_a"].astype(str) != cand_df["entity_b"].astype(str)) &
+                    cand_df["evidence_text"].apply(lambda x: _evidence_is_real(str(x)))
                 ].copy()
                 st.session_state["stage4_df"] = clean_cand  # update with filtered set for Stage 5
 
