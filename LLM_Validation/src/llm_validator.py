@@ -96,37 +96,46 @@ _SYSTEM_PROMPT = (
 )
 
 
-def _build_user_prompt(row: pd.Series) -> str:
+def _build_batch_prompt(rows: list[pd.Series]) -> str:
+    items = ""
+    for i, row in enumerate(rows):
+        items += (
+            f"\n[{i}]\n"
+            f"Source type: {row['source_type']}\n"
+            f"Evidence text: \"{row['evidence_text']}\"\n"
+            f"Entity A: {row['entity_a']}  |  Relation: {row['candidate_relation']}  |  Entity B: {row['entity_b']}\n"
+        )
     return (
-        f"Source type: {row['source_type']}\n"
-        f"Evidence text: \"{row['evidence_text']}\"\n\n"
-        f"Extracted relationship:\n"
-        f"  Entity A : {row['entity_a']}\n"
-        f"  Relation : {row['candidate_relation']}\n"
-        f"  Entity B : {row['entity_b']}\n\n"
-        "Based solely on the evidence text above, does this relationship hold?\n"
-        "Reply with ONLY a JSON object — no markdown, no extra text:\n"
-        '{"valid": true or false, '
-        '"evidence_strength": "strong" or "moderate" or "weak" or "none", '
-        '"reasoning": "one sentence"}'
+        f"Validate each of the following {len(rows)} extracted relationships independently.\n"
+        "For each, reply based solely on its own evidence text — do not compare across items.\n\n"
+        + items
+        + "\nReply with ONLY a JSON array — one object per item, same order, no markdown:\n"
+        '[{"valid": true or false, "evidence_strength": "strong"|"moderate"|"weak"|"none", "reasoning": "one sentence"}, ...]'
     )
 
 
-def _parse_response(text: str) -> dict:
-    """Parse JSON from model response, stripping markdown fences if present."""
+_ERROR_RESULT = {"valid": None, "evidence_strength": "none", "reasoning": "error"}
+
+
+def _parse_batch_response(text: str, expected: int) -> list[dict]:
+    """Parse JSON array from model response, fall back to per-item errors."""
     text = text.strip()
     if text.startswith("```"):
         parts = text.split("```")
-        text = parts[1] if len(parts) > 1 else text
-        if text.startswith("json"):
-            text = text[4:]
-    return json.loads(text.strip())
+        text = parts[1][4:] if parts[1].startswith("json") else parts[1]
+    try:
+        results = json.loads(text.strip())
+        if isinstance(results, list) and len(results) == expected:
+            return results
+    except Exception:
+        pass
+    return [_ERROR_RESULT.copy() for _ in range(expected)]
 
 
-def validate_with_gpt4o(
-    row: pd.Series, client: openai.OpenAI, retries: int = 2
-) -> dict:
-    prompt = _build_user_prompt(row)
+def validate_batch_gpt4o(
+    rows: list[pd.Series], client: openai.OpenAI, retries: int = 2
+) -> list[dict]:
+    prompt = _build_batch_prompt(rows)
     for attempt in range(retries + 1):
         try:
             resp = client.chat.completions.create(
@@ -136,33 +145,33 @@ def validate_with_gpt4o(
                     {"role": "user", "content": prompt},
                 ],
                 temperature=0,
-                max_tokens=256,
+                max_tokens=512,
             )
-            return _parse_response(resp.choices[0].message.content)
+            return _parse_batch_response(resp.choices[0].message.content, len(rows))
         except Exception as exc:
             if attempt == retries:
-                log.warning("GPT-4o failed (row %s): %s", row.get("source_id"), exc)
-                return {"valid": None, "evidence_strength": "none", "reasoning": f"error: {exc}"}
+                log.warning("GPT-4o batch failed: %s", exc)
+                return [_ERROR_RESULT.copy() for _ in rows]
             time.sleep(2**attempt)
 
 
-def validate_with_claude(
-    row: pd.Series, client: anthropic.Anthropic, retries: int = 2
-) -> dict:
-    prompt = _build_user_prompt(row)
+def validate_batch_claude(
+    rows: list[pd.Series], client: anthropic.Anthropic, retries: int = 2
+) -> list[dict]:
+    prompt = _build_batch_prompt(rows)
     for attempt in range(retries + 1):
         try:
             resp = client.messages.create(
                 model=CLAUDE_MODEL,
-                max_tokens=256,
+                max_tokens=512,
                 system=_SYSTEM_PROMPT,
                 messages=[{"role": "user", "content": prompt}],
             )
-            return _parse_response(resp.content[0].text)
+            return _parse_batch_response(resp.content[0].text, len(rows))
         except Exception as exc:
             if attempt == retries:
-                log.warning("Claude failed (row %s): %s", row.get("source_id"), exc)
-                return {"valid": None, "evidence_strength": "none", "reasoning": f"error: {exc}"}
+                log.warning("Claude batch failed: %s", exc)
+                return [_ERROR_RESULT.copy() for _ in rows]
             time.sleep(2**attempt)
 
 
@@ -316,52 +325,44 @@ def run(
         api_key=anthropic_api_key or os.environ["ANTHROPIC_API_KEY"]
     )
 
-    rows_out = []
-    for idx, row in df.iterrows():
-        log.info(
-            "[%d/%d] %s → %s → %s",
-            idx + 1, len(df),
-            row["entity_a"], row["candidate_relation"], row["entity_b"],
-        )
+    BATCH_SIZE = 5
+    all_rows = list(df.iterrows())
+    batches = [all_rows[i:i + BATCH_SIZE] for i in range(0, len(all_rows), BATCH_SIZE)]
+    rows_out = [None] * len(df)
 
-        gpt = validate_with_gpt4o(row, gpt_client)
-        claude = validate_with_claude(row, claude_client)
+    for batch_num, batch in enumerate(batches):
+        batch_rows = [row for _, row in batch]
+        log.info("Batch %d/%d", batch_num + 1, len(batches))
 
-        src_auth = SOURCE_AUTHORITY.get(str(row["source_type"]).strip().upper(), 0.5)
-        rec = _recency_score(row["date"])
-        valid_agreement = _model_valid_agreement(gpt["valid"], claude["valid"])
-        strength_score = _model_strength_score(gpt.get("evidence_strength"), claude.get("evidence_strength"))
-        # multiply valid_agreement × strength: if both say invalid, score is 0 regardless of strength
-        model_component = valid_agreement * strength_score
-        final_conf = _weighted_confidence(
-            src_auth, int(row["corroboration_count"]), model_component, rec
-        )
-        reject_conf = _rejection_confidence(
-            src_auth, int(row["corroboration_count"]), valid_agreement, rec
-        )
+        gpt_results = validate_batch_gpt4o(batch_rows, gpt_client)
+        claude_results = validate_batch_claude(batch_rows, claude_client)
 
-        rows_out.append(
-            {
+        for i, (idx, row) in enumerate(batch):
+            gpt = gpt_results[i]
+            claude = claude_results[i]
+            src_auth = SOURCE_AUTHORITY.get(str(row["source_type"]).strip().upper(), 0.5)
+            rec = _recency_score(row["date"])
+            valid_agreement = _model_valid_agreement(gpt["valid"], claude["valid"])
+            strength_score = _model_strength_score(gpt.get("evidence_strength"), claude.get("evidence_strength"))
+            model_component = valid_agreement * strength_score
+            final_conf = _weighted_confidence(src_auth, int(row["corroboration_count"]), model_component, rec)
+            reject_conf = _rejection_confidence(src_auth, int(row["corroboration_count"]), valid_agreement, rec)
+            rows_out[idx] = {
                 **row.to_dict(),
-                # GPT-4o results
                 "gpt4o_valid": gpt["valid"],
                 "gpt4o_evidence_strength": gpt.get("evidence_strength"),
                 "gpt4o_reasoning": gpt["reasoning"],
-                # Claude results
                 "claude_valid": claude["valid"],
                 "claude_evidence_strength": claude.get("evidence_strength"),
                 "claude_reasoning": claude["reasoning"],
-                # Confidence components
                 "source_authority_score": src_auth,
                 "recency_score": round(rec, 4),
                 "model_valid_agreement": round(valid_agreement, 4),
                 "model_strength_score": round(strength_score, 4),
                 "model_component": round(model_component, 4),
-                # Final scores
                 "final_confidence": final_conf,
                 "rejection_confidence": reject_conf,
             }
-        )
 
     result_df = pd.DataFrame(rows_out)
     result_df["decision_bucket"] = result_df.apply(_assign_bucket, axis=1)
