@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_INPUT = (
     ROOT
     / "NER_EntityResolution/outputs/relations"
-    / "candidate_relations_mock2_entityruler_preprocess.csv"
+    / "candidate_relations_opt_entityruler_stage1_merged.csv"
 )
 OUTPUT_DIR = Path(__file__).resolve().parents[1] / "outputs"
 
@@ -168,9 +168,14 @@ def validate_with_claude(
 
 def _recency_score(date_str: str) -> float:
     """Exponential decay: newer sources score higher. Unknown date → 0.5 neutral."""
-    try:
-        source_dt = datetime.strptime(str(date_str).strip(), "%Y-%m")
-    except (ValueError, TypeError):
+    source_dt = None
+    for fmt in ("%Y-%m", "%b-%y"):
+        try:
+            source_dt = datetime.strptime(str(date_str).strip(), fmt)
+            break
+        except (ValueError, TypeError):
+            continue
+    if source_dt is None:
         return 0.5
     months_elapsed = max(
         (REFERENCE_DATE.year - source_dt.year) * 12
@@ -192,10 +197,25 @@ def _add_corroboration_counts(df: pd.DataFrame) -> pd.DataFrame:
     return df.drop(columns=["_key_a", "_key_rel", "_key_b"])
 
 
-def _model_agreement_ratio(
+def _model_valid_agreement(
+    gpt_valid: Optional[bool], claude_valid: Optional[bool]
+) -> float:
+    """Do the models agree on valid/invalid? 1.0=both agree valid, 0.5=disagree, 0.0=both agree invalid."""
+    if gpt_valid is None and claude_valid is None:
+        return 0.0
+    if gpt_valid is None or claude_valid is None:
+        return 0.5
+    if gpt_valid is True and claude_valid is True:
+        return 1.0
+    if gpt_valid is False and claude_valid is False:
+        return 0.0
+    return 0.5  # disagree
+
+
+def _model_strength_score(
     gpt_strength: Optional[str], claude_strength: Optional[str]
 ) -> float:
-    """Average mapped strength score across non-errored models."""
+    """Average mapped evidence strength across non-errored models."""
     scores = [
         STRENGTH_MAP.get(s, 0.0)
         for s in (gpt_strength, claude_strength)
@@ -220,6 +240,46 @@ def _weighted_confidence(
         + SCORE_WEIGHTS["recency"] * rec_score,
         4,
     )
+
+
+def _rejection_confidence(
+    source_auth: float,
+    corroboration_count: int,
+    valid_agreement: float,
+    rec_score: float,
+) -> float:
+    # invert valid_agreement: both invalid (0.0) → rejection score 1.0
+    # models saying "none" evidence strength is the signal, not strength itself
+    corroboration_norm = min(corroboration_count / 3.0, 1.0)
+    return round(
+        SCORE_WEIGHTS["model_agreement"] * (1.0 - valid_agreement)
+        + SCORE_WEIGHTS["source_authority"] * source_auth
+        + SCORE_WEIGHTS["corroboration"] * corroboration_norm
+        + SCORE_WEIGHTS["recency"] * rec_score,
+        4,
+    )
+
+
+# ── Decision Bucketing ────────────────────────────────────────────────────────
+
+def _assign_bucket(row: pd.Series) -> str:
+    """
+    Three-bucket triage:
+      auto_accept  — both models valid AND final_confidence ≥ threshold
+      auto_reject  — both models invalid AND final_confidence ≥ threshold
+      review       — models disagree, errors, or low confidence (review if budget allows)
+    """
+    gpt_valid = row["gpt4o_valid"]
+    claude_valid = row["claude_valid"]
+    high_conf = row["final_confidence"] >= HIGH_CONFIDENCE_THRESHOLD
+
+    high_reject_conf = row["rejection_confidence"] >= HIGH_CONFIDENCE_THRESHOLD
+
+    if gpt_valid is True and claude_valid is True and high_conf:
+        return "auto_accept"
+    if gpt_valid is False and claude_valid is False and high_reject_conf:
+        return "auto_reject"
+    return "review"
 
 
 # ── Audit Sampling ────────────────────────────────────────────────────────────
@@ -269,9 +329,15 @@ def run(
 
         src_auth = SOURCE_AUTHORITY.get(str(row["source_type"]).strip().upper(), 0.5)
         rec = _recency_score(row["date"])
-        agreement = _model_agreement_ratio(gpt.get("evidence_strength"), claude.get("evidence_strength"))
+        valid_agreement = _model_valid_agreement(gpt["valid"], claude["valid"])
+        strength_score = _model_strength_score(gpt.get("evidence_strength"), claude.get("evidence_strength"))
+        # multiply valid_agreement × strength: if both say invalid, score is 0 regardless of strength
+        model_component = valid_agreement * strength_score
         final_conf = _weighted_confidence(
-            src_auth, int(row["corroboration_count"]), agreement, rec
+            src_auth, int(row["corroboration_count"]), model_component, rec
+        )
+        reject_conf = _rejection_confidence(
+            src_auth, int(row["corroboration_count"]), valid_agreement, rec
         )
 
         rows_out.append(
@@ -288,13 +354,17 @@ def run(
                 # Confidence components
                 "source_authority_score": src_auth,
                 "recency_score": round(rec, 4),
-                "model_agreement_ratio": round(agreement, 4),
-                # Final score
+                "model_valid_agreement": round(valid_agreement, 4),
+                "model_strength_score": round(strength_score, 4),
+                "model_component": round(model_component, 4),
+                # Final scores
                 "final_confidence": final_conf,
+                "rejection_confidence": reject_conf,
             }
         )
 
     result_df = pd.DataFrame(rows_out)
+    result_df["decision_bucket"] = result_df.apply(_assign_bucket, axis=1)
     result_df = _mark_audit_sample(result_df)
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -314,12 +384,20 @@ def _print_summary(df: pd.DataFrame) -> None:
     high_conf = (df["final_confidence"] >= HIGH_CONFIDENCE_THRESHOLD).sum()
     audited = int(df["audit_flag"].sum())
 
+    auto_accept = (df["decision_bucket"] == "auto_accept").sum()
+    auto_reject = (df["decision_bucket"] == "auto_reject").sum()
+    review = (df["decision_bucket"] == "review").sum()
+
     log.info("─── Validation Summary ──────────────────────────────────────")
     log.info("  Total relations          : %d", total)
     log.info("  Both models VALID        : %d", both_valid)
     log.info("  Both models INVALID      : %d", both_invalid)
     log.info("  Disagreement             : %d", disagree)
     log.info("  High-confidence (≥%.2f)  : %d", HIGH_CONFIDENCE_THRESHOLD, high_conf)
+    log.info("  ── Decision Buckets ─────────────────────────────────────")
+    log.info("  auto_accept              : %d", auto_accept)
+    log.info("  auto_reject              : %d", auto_reject)
+    log.info("  review                   : %d", review)
     log.info(
         "  Flagged for audit        : %d  (~%.0f%% of high-conf)",
         audited,
@@ -330,6 +408,5 @@ def _print_summary(df: pd.DataFrame) -> None:
 
 if __name__ == "__main__":
     run(
-        openai_api_key="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",
-        anthropic_api_key="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",
+        #key
     )
