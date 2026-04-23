@@ -464,8 +464,13 @@ with st.expander("**STAGE 04 — Relation Extraction**",
                 from extract_candidate_relations import build_candidate_rows
                 df_res = st.session_state["stage3_df"].copy()
                 with st.spinner("Extracting relations…"):
+                    from extract_candidate_relations import _assign_sentence
                     df_res["sentence_text"] = df_res.apply(
-                        lambda r: str(r.get("raw_text", ""))[:500], axis=1
+                        lambda r: _assign_sentence(
+                            str(r.get("raw_text", "")),
+                            r.get("start_char", -1)
+                        ),
+                        axis=1,
                     )
                     rows = build_candidate_rows(df_res)
                     cand_df = pd.DataFrame(rows) if rows else pd.DataFrame()
@@ -543,10 +548,6 @@ with st.expander("**STAGE 04 — Relation Extraction**",
                     for pat in _BOILERPLATE_SIGNALS:
                         if _re.search(pat, str(ev), _re.IGNORECASE):
                             return False
-                    # Evidence should be a sentence, not a metadata dump —
-                    # real sentences are under ~800 chars and contain a verb
-                    if len(str(ev)) > 800:
-                        return False
                     return True
 
                 clean_cand = cand_df[
