@@ -20,10 +20,10 @@ import streamlit as st
 # ── Path setup ────────────────────────────────────────────────────────────────
 ROOT = Path(__file__).parent
 SRC = ROOT / "src"
-if str(SRC) not in sys.path:
-    sys.path.insert(0, str(SRC))
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
+LLM_SRC = ROOT / "LLM_Validation" / "src"
+for _p in [str(LLM_SRC), str(SRC), str(ROOT)]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -202,6 +202,19 @@ html, body, [class*="css"] {
 /* Confidence bar */
 .conf-bar-wrap { background:#0d1f3c; border-radius:4px; height:8px; width:100%; margin-top:4px; }
 .conf-bar { height:8px; border-radius:4px; }
+
+/* Horizontal scroll for all dataframes */
+[data-testid="stDataFrame"] > div {
+    overflow-x: auto !important;
+}
+[data-testid="stDataFrame"] iframe {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+div[data-testid="stDataFrameResizable"] {
+    overflow-x: auto !important;
+    width: 100% !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -338,7 +351,7 @@ with st.expander("**STAGE 01 — Data Collection**", expanded=True):
         st.markdown(f'<div class="metric-row">{pills}</div>', unsafe_allow_html=True)
         display1 = df1[["source_id", "company_seed", "source_type", "date", "raw_text"]].head(50).copy()
         display1["raw_text"] = display1["raw_text"].astype(str).str[:200] + "…"
-        st.dataframe(display1, use_container_width=True, height=220,
+        st.dataframe(display1, height=220,
                      column_config={
                          "source_id":    st.column_config.NumberColumn("ID", width="small"),
                          "company_seed": st.column_config.TextColumn("Company", width="medium"),
@@ -395,7 +408,7 @@ with st.expander("**STAGE 02 — Preprocessing + NER**",
             st.markdown(f'<div class="metric-row">{pills}</div>', unsafe_allow_html=True)
             show_cols = [c for c in ["source_id", "company_seed", "raw_mention",
                                       "entity_label", "start_char", "source_type"] if c in ner_df.columns]
-            st.dataframe(ner_df[show_cols].head(50), use_container_width=True, height=220)
+            st.dataframe(ner_df[show_cols].head(50), height=220)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # STAGE 3 — Entity Resolution
@@ -437,12 +450,12 @@ with st.expander("**STAGE 03 — Entity Resolution**",
             with tab_res:
                 show_cols = [c for c in ["raw_mention", "canonical_name", "merge_decision",
                                           "merge_confidence", "evidence_note"] if c in res_df.columns]
-                st.dataframe(res_df[show_cols].head(50), use_container_width=True, height=220)
+                st.dataframe(res_df[show_cols].head(50), height=220)
             with tab_rev:
                 if len(rev_df) == 0:
                     st.info("No pairs flagged for review.")
                 else:
-                    st.dataframe(rev_df.head(30), use_container_width=True, height=200)
+                    st.dataframe(rev_df.head(30), height=200)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # STAGE 4 — Relation Extraction
@@ -797,7 +810,7 @@ with st.expander("**STAGE 06 — Knowledge Graph**",
                 # Fallback: table view
                 show_cols = [c for c in ["entity_a", "candidate_relation", "entity_b",
                                           "final_confidence", "decision_bucket"] if c in graph_df.columns]
-                st.dataframe(graph_df[show_cols], use_container_width=True)
+                st.dataframe(graph_df[show_cols], )
 
 # ── Footer ────────────────────────────────────────────────────────────────────
 st.markdown("""
