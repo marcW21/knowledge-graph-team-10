@@ -588,7 +588,8 @@ with st.expander(
 
         if st.session_state["stage4_df"] is not None:
             clean_df = st.session_state["stage4_df"]
-            raw_df   = st.session_state["stage4_raw_df"] or pd.DataFrame()
+            _raw = st.session_state["stage4_raw_df"]
+            raw_df = _raw if _raw is not None else pd.DataFrame()
 
             if clean_df.empty:
                 st.warning("No candidate relations found. Try enabling more sources or increasing N.")
