@@ -1,0 +1,105 @@
+candidate_a,candidate_b,normalized_a,normalized_b,similarity_score,review_confidence,reason
+Food and Drug Administration,U.S. Food and Drug Administration,FOOD AND DRUG ADMINISTRATION,U S FOOD AND DRUG ADMINISTRATION,0.9333,0.66,high_string_similarity_review
+Food and Drug Administration,the U.S. Food and Drug Administration,FOOD AND DRUG ADMINISTRATION,THE U S FOOD AND DRUG ADMINISTRATION,0.875,0.58,shared_long_base_review
+Food and Drug Administration,US Food and Drug Administration,FOOD AND DRUG ADMINISTRATION,US FOOD AND DRUG ADMINISTRATION,0.9492,0.66,high_string_similarity_review
+Food and Drug Administration,the US Food and Drug Administration,FOOD AND DRUG ADMINISTRATION,THE US FOOD AND DRUG ADMINISTRATION,0.8889,0.58,shared_long_base_review
+Food and Drug Administration,the Food and Drug Administration,FOOD AND DRUG ADMINISTRATION,THE FOOD AND DRUG ADMINISTRATION,0.9333,0.66,high_string_similarity_review
+THE SECURITIES EXCHANGE ACT OF,the Securities Exchange Act,THE SECURITIES EXCHANGE ACT OF,THE SECURITIES EXCHANGE ACT,0.9474,0.66,high_string_similarity_review
+THE SECURITIES EXCHANGE ACT OF,the Securities Exchange Act,THE SECURITIES EXCHANGE ACT OF,THE SECURITIES EXCHANGE ACT,0.9474,0.66,high_string_similarity_review
+THE SECURITIES EXCHANGE ACT OF,the Securities Exchange Act,THE SECURITIES EXCHANGE ACT OF,THE SECURITIES EXCHANGE ACT,0.9474,0.66,high_string_similarity_review
+I.R.S. Employer,IRS Employer,I R S EMPLOYER,IRS EMPLOYER,0.9231,0.66,high_string_similarity_review
+PFE New York Stock Exchange,PFE/27 New York Stock Exchange,PFE NEW YORK STOCK EXCHANGE,PFE 27 NEW YORK STOCK EXCHANGE,0.9474,0.66,high_string_similarity_review
+PFE New York Stock Exchange,New York Stock Exchange,PFE NEW YORK STOCK EXCHANGE,NEW YORK STOCK EXCHANGE,0.92,0.66,high_string_similarity_review
+New York Stock Exchange Indicate,PFE/45 New York Stock Exchange Indicate,NEW YORK STOCK EXCHANGE INDICATE,PFE 45 NEW YORK STOCK EXCHANGE INDICATE,0.9014,0.58,shared_long_base_review
+New York Stock Exchange Indicate,MRK/54 New York Stock Exchange Indicate,NEW YORK STOCK EXCHANGE INDICATE,MRK 54 NEW YORK STOCK EXCHANGE INDICATE,0.9014,0.58,shared_long_base_review
+the U.S. Securities and Exchange Commission,the Securities and Exchange Commission,THE U S SECURITIES AND EXCHANGE COMMISSION,THE SECURITIES AND EXCHANGE COMMISSION,0.95,0.66,high_string_similarity_review
+Cover Page Interactive Data File,Cover Page Interactive File,COVER PAGE INTERACTIVE DATA FILE,COVER PAGE INTERACTIVE FILE,0.9153,0.66,high_string_similarity_review
+PFE/27 New York Stock Exchange,New York Stock Exchange,PFE 27 NEW YORK STOCK EXCHANGE,NEW YORK STOCK EXCHANGE,0.8679,0.58,shared_long_base_review
+New York Stock Exchange,JNJ28 New York Stock Exchange,NEW YORK STOCK EXCHANGE,JNJ28 NEW YORK STOCK EXCHANGE,0.8846,0.58,shared_long_base_review
+New York Stock Exchange,JNJ29B New York Stock Exchange,NEW YORK STOCK EXCHANGE,JNJ29B NEW YORK STOCK EXCHANGE,0.8679,0.58,shared_long_base_review
+New York Stock Exchange,JNJ32 New York Stock Exchange,NEW YORK STOCK EXCHANGE,JNJ32 NEW YORK STOCK EXCHANGE,0.8846,0.58,shared_long_base_review
+New York Stock Exchange,JNJ36A New York Stock Exchange,NEW YORK STOCK EXCHANGE,JNJ36A NEW YORK STOCK EXCHANGE,0.8679,0.58,shared_long_base_review
+New York Stock Exchange,JNJ37B New York Stock Exchange,NEW YORK STOCK EXCHANGE,JNJ37B NEW YORK STOCK EXCHANGE,0.8679,0.58,shared_long_base_review
+New York Stock Exchange,JNJ44 New York Stock Exchange,NEW YORK STOCK EXCHANGE,JNJ44 NEW YORK STOCK EXCHANGE,0.8846,0.58,shared_long_base_review
+New York Stock Exchange,JNJ45 New York Stock Exchange,NEW YORK STOCK EXCHANGE,JNJ45 NEW YORK STOCK EXCHANGE,0.8846,0.58,shared_long_base_review
+New York Stock Exchange,MRK New York Stock Exchange,NEW YORK STOCK EXCHANGE,MRK NEW YORK STOCK EXCHANGE,0.92,0.66,high_string_similarity_review
+New York Stock Exchange,MRK/37 New York Stock Exchange,NEW YORK STOCK EXCHANGE,MRK 37 NEW YORK STOCK EXCHANGE,0.8679,0.58,shared_long_base_review
+New York Stock Exchange,MRK/44 New York Stock Exchange,NEW YORK STOCK EXCHANGE,MRK 44 NEW YORK STOCK EXCHANGE,0.8679,0.58,shared_long_base_review
+the Securities and Exchange Commission,the Securities Exchange Commission,THE SECURITIES AND EXCHANGE COMMISSION,THE SECURITIES EXCHANGE COMMISSION,0.9444,0.66,high_string_similarity_review
+the Post-Effective Amendment No,Post-Effective Amendment No,THE POST EFFECTIVE AMENDMENT NO,POST EFFECTIVE AMENDMENT NO,0.931,0.66,high_string_similarity_review
+U.S. Food and Drug Administration,the U.S. Food and Drug Administration,U S FOOD AND DRUG ADMINISTRATION,THE U S FOOD AND DRUG ADMINISTRATION,0.9412,0.66,high_string_similarity_review
+U.S. Food and Drug Administration,the US Food and Drug Administration,U S FOOD AND DRUG ADMINISTRATION,THE US FOOD AND DRUG ADMINISTRATION,0.9254,0.66,high_string_similarity_review
+IRS Employer Identification No.,IRS Employer Identification Number,IRS EMPLOYER IDENTIFICATION NO,IRS EMPLOYER IDENTIFICATION NUMBER,0.9062,0.58,shared_long_base_review
+Press Release,the “Press Release,PRESS RELEASE,THE PRESS RELEASE,0.8667,0.58,shared_long_base_review
+National Institutes of Health,the National Institutes of Health,NATIONAL INSTITUTES OF HEALTH,THE NATIONAL INSTITUTES OF HEALTH,0.9355,0.66,high_string_similarity_review
+the National Institutes of Health (&,the National Institutes of Health,THE NATIONAL INSTITUTES OF HEALTH AND,THE NATIONAL INSTITUTES OF HEALTH,0.9429,0.66,high_string_similarity_review
+Votes For Votes Against Abstentions Broker Non-Votes,Names Votes For Votes Against Abstentions Broker Non-Votes,VOTES FOR VOTES AGAINST ABSTENTIONS BROKER NON VOTES,NAMES VOTES FOR VOTES AGAINST ABSTENTIONS BROKER NON VOTES,0.9455,0.66,high_string_similarity_review
+Votes For Votes Against Abstentions Broker Non-Votes,Votes For Votes Against Abstain Broker Non-Votes,VOTES FOR VOTES AGAINST ABSTENTIONS BROKER NON VOTES,VOTES FOR VOTES AGAINST ABSTAIN BROKER NON VOTES,0.92,0.66,high_string_similarity_review
+District Court,the District Court,DISTRICT COURT,THE DISTRICT COURT,0.875,0.58,shared_long_base_review
+NanoString’s,NanoString,NANOSTRING S,NANOSTRING,0.9091,0.58,shared_long_base_review
+the U.S. Food and Drug Administration,US Food and Drug Administration,THE U S FOOD AND DRUG ADMINISTRATION,US FOOD AND DRUG ADMINISTRATION,0.9254,0.66,high_string_similarity_review
+the U.S. Food and Drug Administration,the Food and Drug Administration,THE U S FOOD AND DRUG ADMINISTRATION,THE FOOD AND DRUG ADMINISTRATION,0.9412,0.66,high_string_similarity_review
+8-K mrna-20260105 0001682852,8-K mrna-20260112 0001682852,8 K MRNA 20260105 0001682852,8 K MRNA 20260112 0001682852,0.9286,0.66,high_string_similarity_review
+the “Effective Date,the Effective Time,THE EFFECTIVE DATE,THE EFFECTIVE TIME,0.8889,0.58,shared_long_base_review
+Arbutus/Genevant,Arbutus/Genevant’s,ARBUTUS GENEVANT,ARBUTUS GENEVANT S,0.9412,0.66,high_string_similarity_review
+ICONIC-ADVANCE 1,ICONIC-ADVANCE 2,ICONIC ADVANCE 1,ICONIC ADVANCE 2,0.9375,0.66,high_string_similarity_review
+8-K jnj-20250331 0000200406,8-K jnj-20250415 0000200406,8 K JNJ 20250331 0000200406,8 K JNJ 20250415 0000200406,0.9259,0.66,high_string_similarity_review
+8-K jnj-20250331 0000200406,8-K jnj-20260414 0000200406,8 K JNJ 20250331 0000200406,8 K JNJ 20260414 0000200406,0.8889,0.58,shared_long_base_review
+JNJ28 New York Stock Exchange,JNJ29B New York Stock Exchange,JNJ28 NEW YORK STOCK EXCHANGE,JNJ29B NEW YORK STOCK EXCHANGE,0.9492,0.66,high_string_similarity_review
+JNJ28 New York Stock Exchange,JNJ36A New York Stock Exchange,JNJ28 NEW YORK STOCK EXCHANGE,JNJ36A NEW YORK STOCK EXCHANGE,0.9153,0.66,high_string_similarity_review
+JNJ28 New York Stock Exchange,JNJ37B New York Stock Exchange,JNJ28 NEW YORK STOCK EXCHANGE,JNJ37B NEW YORK STOCK EXCHANGE,0.9153,0.66,high_string_similarity_review
+JNJ28 New York Stock Exchange,JNJ44 New York Stock Exchange,JNJ28 NEW YORK STOCK EXCHANGE,JNJ44 NEW YORK STOCK EXCHANGE,0.931,0.66,high_string_similarity_review
+JNJ28 New York Stock Exchange,JNJ45 New York Stock Exchange,JNJ28 NEW YORK STOCK EXCHANGE,JNJ45 NEW YORK STOCK EXCHANGE,0.931,0.66,high_string_similarity_review
+JNJ29B New York Stock Exchange,JNJ32 New York Stock Exchange,JNJ29B NEW YORK STOCK EXCHANGE,JNJ32 NEW YORK STOCK EXCHANGE,0.9492,0.66,high_string_similarity_review
+JNJ29B New York Stock Exchange,JNJ37B New York Stock Exchange,JNJ29B NEW YORK STOCK EXCHANGE,JNJ37B NEW YORK STOCK EXCHANGE,0.9333,0.66,high_string_similarity_review
+JNJ29B New York Stock Exchange,JNJ44 New York Stock Exchange,JNJ29B NEW YORK STOCK EXCHANGE,JNJ44 NEW YORK STOCK EXCHANGE,0.9153,0.66,high_string_similarity_review
+JNJ29B New York Stock Exchange,JNJ45 New York Stock Exchange,JNJ29B NEW YORK STOCK EXCHANGE,JNJ45 NEW YORK STOCK EXCHANGE,0.9153,0.66,high_string_similarity_review
+JNJ32 New York Stock Exchange,JNJ36A New York Stock Exchange,JNJ32 NEW YORK STOCK EXCHANGE,JNJ36A NEW YORK STOCK EXCHANGE,0.9492,0.66,high_string_similarity_review
+JNJ32 New York Stock Exchange,JNJ37B New York Stock Exchange,JNJ32 NEW YORK STOCK EXCHANGE,JNJ37B NEW YORK STOCK EXCHANGE,0.9492,0.66,high_string_similarity_review
+JNJ32 New York Stock Exchange,JNJ44 New York Stock Exchange,JNJ32 NEW YORK STOCK EXCHANGE,JNJ44 NEW YORK STOCK EXCHANGE,0.931,0.66,high_string_similarity_review
+JNJ32 New York Stock Exchange,JNJ45 New York Stock Exchange,JNJ32 NEW YORK STOCK EXCHANGE,JNJ45 NEW YORK STOCK EXCHANGE,0.931,0.66,high_string_similarity_review
+JNJ36A New York Stock Exchange,JNJ37B New York Stock Exchange,JNJ36A NEW YORK STOCK EXCHANGE,JNJ37B NEW YORK STOCK EXCHANGE,0.9333,0.66,high_string_similarity_review
+JNJ36A New York Stock Exchange,JNJ44 New York Stock Exchange,JNJ36A NEW YORK STOCK EXCHANGE,JNJ44 NEW YORK STOCK EXCHANGE,0.9153,0.66,high_string_similarity_review
+JNJ36A New York Stock Exchange,JNJ45 New York Stock Exchange,JNJ36A NEW YORK STOCK EXCHANGE,JNJ45 NEW YORK STOCK EXCHANGE,0.9153,0.66,high_string_similarity_review
+JNJ37B New York Stock Exchange,JNJ44 New York Stock Exchange,JNJ37B NEW YORK STOCK EXCHANGE,JNJ44 NEW YORK STOCK EXCHANGE,0.9153,0.66,high_string_similarity_review
+JNJ37B New York Stock Exchange,JNJ45 New York Stock Exchange,JNJ37B NEW YORK STOCK EXCHANGE,JNJ45 NEW YORK STOCK EXCHANGE,0.9153,0.66,high_string_similarity_review
+8-K jnj-20250415 0000200406,8-K jnj-20260414 0000200406,8 K JNJ 20250415 0000200406,8 K JNJ 20260414 0000200406,0.9259,0.66,high_string_similarity_review
+Board of Directors,the Board of Directors,BOARD OF DIRECTORS,THE BOARD OF DIRECTORS,0.9,0.58,shared_long_base_review
+Innovative Medicine,U.S. Innovative Medicine,INNOVATIVE MEDICINE,U S INNOVATIVE MEDICINE,0.9048,0.58,shared_long_base_review
+the Board of Directors,the Board of Directors of,THE BOARD OF DIRECTORS,THE BOARD OF DIRECTORS OF,0.9362,0.66,high_string_similarity_review
+International Federation of Gynecology and,International Federation of Gynecology and Obstetrics,INTERNATIONAL FEDERATION OF GYNECOLOGY AND,INTERNATIONAL FEDERATION OF GYNECOLOGY AND OBSTETRICS,0.8842,0.58,shared_long_base_review
+Response Evaluation Criteria,the Response Evaluation Criteria,RESPONSE EVALUATION CRITERIA,THE RESPONSE EVALUATION CRITERIA,0.9333,0.66,high_string_similarity_review
+p=0·025,p<0.05,P 0 025,P 0 05,0.9231,0.66,high_string_similarity_review
+MRK New York Stock Exchange,MRK/37 New York Stock Exchange,MRK NEW YORK STOCK EXCHANGE,MRK 37 NEW YORK STOCK EXCHANGE,0.9474,0.66,high_string_similarity_review
+MRK New York Stock Exchange,MRK/44 New York Stock Exchange,MRK NEW YORK STOCK EXCHANGE,MRK 44 NEW YORK STOCK EXCHANGE,0.9474,0.66,high_string_similarity_review
+MRK/37 New York Stock Exchange,MRK/44 New York Stock Exchange,MRK 37 NEW YORK STOCK EXCHANGE,MRK 44 NEW YORK STOCK EXCHANGE,0.9333,0.66,high_string_similarity_review
+MRK/54 New York Stock Exchange Indicate,MRK/54 New York Stock Exchange Item,MRK 54 NEW YORK STOCK EXCHANGE INDICATE,MRK 54 NEW YORK STOCK EXCHANGE ITEM,0.9189,0.66,high_string_similarity_review
+I.R.S. Employer,IRS Employer,I R S EMPLOYER,IRS EMPLOYER,0.9231,0.66,high_string_similarity_review
+Venetoclax-Rituximab,venetoclax-rituximab group,VENETOCLAX RITUXIMAB,VENETOCLAX RITUXIMAB GROUP,0.8696,0.58,shared_long_base_review
+the “ Fixed Rate Notes,Fixed Rate Notes,THE FIXED RATE NOTES,FIXED RATE NOTES,0.8889,0.58,shared_long_base_review
+Fixed Rate Notes,the “ Fixed Rate Notes,FIXED RATE NOTES,THE FIXED RATE NOTES,0.8889,0.58,shared_long_base_review
+the National Institutes of Health,the National Institute of Mental Health,THE NATIONAL INSTITUTES OF HEALTH,THE NATIONAL INSTITUTE OF MENTAL HEALTH,0.8889,0.58,shared_long_base_review
+Risks Related to Competition &#,Risks Related to Operations &#,RISKS RELATED TO COMPETITION AND,RISKS RELATED TO OPERATIONS AND,0.8889,0.58,shared_long_base_review
+the Company’s 2026,the Company’s 2015,THE COMPANY S 2026,THE COMPANY S 2015,0.8889,0.58,shared_long_base_review
+US Food and Drug Administration,the US Food and Drug Administration,US FOOD AND DRUG ADMINISTRATION,THE US FOOD AND DRUG ADMINISTRATION,0.9394,0.66,high_string_similarity_review
+US Food and Drug Administration,the Food and Drug Administration,US FOOD AND DRUG ADMINISTRATION,THE FOOD AND DRUG ADMINISTRATION,0.9206,0.66,high_string_similarity_review
+the Bill & Melinda Gates Foundation,Bill & Melinda Gates Foundation,THE BILL AND MELINDA GATES FOUNDATION,BILL AND MELINDA GATES FOUNDATION,0.9429,0.66,high_string_similarity_review
+the US Food and Drug Administration,the Food and Drug Administration,THE US FOOD AND DRUG ADMINISTRATION,THE FOOD AND DRUG ADMINISTRATION,0.9552,0.66,high_string_similarity_review
+Delaware 0-19731,Delaware 000-19731,DELAWARE 0 19731,DELAWARE 000 19731,0.9412,0.66,high_string_similarity_review
+the Effective Time,the “Effective Date,THE EFFECTIVE TIME,THE EFFECTIVE DATE,0.8889,0.58,shared_long_base_review
+glucagon,pGlucagon,GLUCAGON,PGLUCAGON,0.9412,0.66,high_string_similarity_review
+HEK-Blue™-hNOD1,HEK-Blue™-hNOD2,HEK BLUE HNOD1,HEK BLUE HNOD2,0.9286,0.66,high_string_similarity_review
+Licensed Products,the Licensed Products,LICENSED PRODUCTS,THE LICENSED PRODUCTS,0.8947,0.58,shared_long_base_review
+the License Agreement,License Agreement,THE LICENSE AGREEMENT,LICENSE AGREEMENT,0.8947,0.58,shared_long_base_review
+the “Contract Research Amendment,the Contract Research Agreement,THE CONTRACT RESEARCH AMENDMENT,THE CONTRACT RESEARCH AGREEMENT,0.9032,0.58,shared_long_base_review
+the Contract Research Agreement,the “Contract Research Amendment,THE CONTRACT RESEARCH AGREEMENT,THE CONTRACT RESEARCH AMENDMENT,0.9032,0.58,shared_long_base_review
+British Society of Gastroenterology,the British Society of Gastroenterology,BRITISH SOCIETY OF GASTROENTEROLOGY,THE BRITISH SOCIETY OF GASTROENTEROLOGY,0.9459,0.66,high_string_similarity_review
+Term Loan Credit Agreement,the Term Loan Credit Agreement,TERM LOAN CREDIT AGREEMENT,THE TERM LOAN CREDIT AGREEMENT,0.9286,0.66,high_string_similarity_review
+Term Loan Credit Agreement,the Term Loan Credit Agreement,TERM LOAN CREDIT AGREEMENT,THE TERM LOAN CREDIT AGREEMENT,0.9286,0.66,high_string_similarity_review
+Dengue/Chikungunya,Dengue/Chikungunya/Zika,DENGUE CHIKUNGUNYA,DENGUE CHIKUNGUNYA ZIKA,0.878,0.58,shared_long_base_review
+Kuder Richardson 20,the Kuder Richardson 20,KUDER RICHARDSON 20,THE KUDER RICHARDSON 20,0.9048,0.58,shared_long_base_review
+the Cause of Death Ensemble,a Cause of Death Ensemble,THE CAUSE OF DEATH ENSEMBLE,A CAUSE OF DEATH ENSEMBLE,0.9231,0.66,high_string_similarity_review
+GBD Cause of Death Ensemble,a Cause of Death Ensemble,GBD CAUSE OF DEATH ENSEMBLE,A CAUSE OF DEATH ENSEMBLE,0.9231,0.66,high_string_similarity_review
+the International Classification of Diseases,International Classification of Diseases,THE INTERNATIONAL CLASSIFICATION OF DISEASES,INTERNATIONAL CLASSIFICATION OF DISEASES,0.9524,0.66,high_string_similarity_review
+the Fractional Flow Reserve,Fractional Flow Reserve,THE FRACTIONAL FLOW RESERVE,FRACTIONAL FLOW RESERVE,0.92,0.66,high_string_similarity_review
+American Society of Metabolic,American Society for Metabolic,AMERICAN SOCIETY OF METABOLIC,AMERICAN SOCIETY FOR METABOLIC,0.9492,0.66,high_string_similarity_review
