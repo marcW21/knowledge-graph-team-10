@@ -7,14 +7,32 @@ Strategy
 --------
 1. Load spaCy's en_core_web_sm (or a model passed via --spacy-model).
 2. Inject an EntityRuler (before the NER component) built from the unique
-   company_seed values in the input file, plus common legal-suffix variants.
+   company_seed values in the input file, plus industry-specific suffix variants.
    Matching is case-insensitive via phrase_matcher_attr="LOWER".
 3. Run the full pipeline over raw_text_cleaned.
 4. Keep only entities whose label is in --entity-labels (default: ORG).
-5. Deduplicate by (source_id, start_char, end_char, mention_lower).
+5. Apply post-extraction filter (_is_valid_mention) to drop junk spans.
+6. Deduplicate by (source_id, start_char, end_char, mention_lower).
 
-Input  : cleaned_input CSV from preprocess.py
-Output : ner_results CSV with one row per mention.
+Key changes from v1
+--------------------
+- Post-extraction filter (_is_valid_mention) added. spaCy and the EntityRuler
+  were tagging single tokens, numeric strings, known-bad fragments, and very
+  short spans as ORG. These flowed into resolve_alias.py and
+  extract_candidate_relations.py as real entities. The filter catches:
+    * Mentions shorter than MIN_MENTION_CHARS characters.
+    * Purely numeric / punctuation spans.
+    * Mentions in CORRUPT_TOKENS blocklist.
+    * Bare legal suffixes with no base name.
+    * Junk-prefix fragments (e.g. "Funded by X", "Agreement with Y").
+    * Single all-uppercase tokens not in the pharma abbreviation allowlist
+      (drug names, header tokens, metadata fields not caught by exact blocklist).
+
+- EXTRA_SUFFIX_VARIANTS reduced to industry-specific suffixes only.
+  Generic legal suffixes (Inc., Corp., Ltd.) were causing suffix-fragment false
+  positives: if "Pfizer Inc." was a seed pattern and "Pfizer" appeared before
+  a different suffix, spaCy sometimes tagged just "Inc." as ORG. Suffix
+  normalization is handled cleanly downstream in resolve_alias.py anyway.
 """
 
 from __future__ import annotations
@@ -34,26 +52,49 @@ except ImportError as exc:
         "spaCy is not installed. Run: pip install spacy && python -m spacy download en_core_web_sm"
     ) from exc
 
-from constants import ALL_LEGAL_SUFFIXES
+from constants import ALL_LEGAL_SUFFIXES, CORRUPT_TOKENS
 
 REQUIRED_COLUMNS: frozenset[str] = frozenset({"source_id", "source_type", "raw_text_cleaned"})
 
-# Additional suffix tokens to append when building EntityRuler patterns.
-# These supplement ALL_LEGAL_SUFFIXES with industry-specific variants.
+MIN_MENTION_CHARS: int = 3
+
 EXTRA_SUFFIX_VARIANTS: list[str] = [
-    "Inc.", "Corp.", "Co.", "Ltd.",
-    "Therapeutics", "Therapeutics, Inc.",
-    "Pharmaceuticals", "Pharmaceuticals, Inc.",
-    "Biosciences", "Biosciences, Inc.",
-    "Sciences", "Sciences, Inc.",
+    "Therapeutics",
+    "Pharmaceuticals",
+    "Biosciences",
+    "Sciences",
+    "Biotech",
+    "Biologics",
+    "Oncology",
+    "Genomics",
+    "Diagnostics",
 ]
 
 BAD_SEEDS: frozenset[str] = frozenset({
     "", "n/a", "na", "null", "none", "tbd", "#name?", "--", "unknown",
 })
 
-_WS_RE = re.compile(r"\s+")
+_JUNK_PREFIXES: tuple[str, ...] = (
+    "funded by",
+    "equitable access",
+    "partnership by",
+    "sponsored by",
+    "supported by",
+    "grant from",
+    "collaboration with",
+    "agreement with",
+    "pursuant to",
+)
+
+_KNOWN_PHARMA_ABBREVS: Set[str] = {
+    "BMS", "GSK", "JNJ", "AZ", "MSD", "MRK", "LLY", "PFE", "ABBV", "AMGN",
+    "RHHBY", "NVS", "SNY", "AZN", "BMY",
+}
+
+_WS_RE        = re.compile(r"\s+")
 _DATE_LIKE_RE = re.compile(r"^\d{1,2}-[A-Za-z]{3,4}$")
+_NUMERIC_RE   = re.compile(r"^[\d\s\.\,\-\(\)]+$")
+_SOLO_CAPS_RE = re.compile(r"^[A-Z0-9&\-\.]{2,20}$")
 
 OUTPUT_COLUMNS: list[str] = [
     "source_id", "source_type",
@@ -64,8 +105,6 @@ OUTPUT_COLUMNS: list[str] = [
     "mention_source", "mention_confidence",
 ]
 
-
-# ─── Helpers ──────────────────────────────────────────────────────────────────
 
 def _norm(value: object) -> str:
     if pd.isna(value):
@@ -82,10 +121,37 @@ def _is_reasonable_seed(seed: str) -> bool:
     return True
 
 
-# ─── EntityRuler construction ─────────────────────────────────────────────────
+def _is_valid_mention(text: str) -> bool:
+    """Return True if the mention looks like a real company name."""
+    s = text.strip()
+    if not s or len(s) < MIN_MENTION_CHARS:
+        return False
+    if _NUMERIC_RE.match(s):
+        return False
+
+    upper = s.upper()
+    if upper in CORRUPT_TOKENS:
+        return False
+    if upper in ALL_LEGAL_SUFFIXES:
+        return False
+
+    lower = s.lower()
+    for prefix in _JUNK_PREFIXES:
+        if lower.startswith(prefix):
+            return False
+
+    tokens = s.split()
+    if len(tokens) == 1 and _SOLO_CAPS_RE.match(upper):
+        if upper not in _KNOWN_PHARMA_ABBREVS:
+            return False
+
+    if not re.search(r"[A-Za-z]", s):
+        return False
+
+    return True
+
 
 def _build_patterns(df: pd.DataFrame) -> list[Dict]:
-    """Build case-insensitive EntityRuler patterns from unique seeds."""
     seen: Set[str] = set()
     patterns: list[Dict] = []
 
@@ -99,7 +165,7 @@ def _build_patterns(df: pd.DataFrame) -> list[Dict]:
         if not _is_reasonable_seed(seed):
             continue
 
-        variants = {seed, seed.upper()}
+        variants: Set[str] = {seed}
         for suffix in EXTRA_SUFFIX_VARIANTS:
             variants.add(f"{seed} {suffix}")
 
@@ -127,21 +193,19 @@ def _add_entity_ruler(nlp: Language, df: pd.DataFrame) -> Language:
     return nlp
 
 
-# ─── Extraction ───────────────────────────────────────────────────────────────
-
 def _row_meta(row: pd.Series) -> dict:
     return {
-        "source_id": row["source_id"],
-        "source_type": row.get("source_type", ""),
-        "source_type_cleaned": row.get("source_type_cleaned", row.get("source_type", "")),
-        "source_url": row.get("source_url", ""),
-        "source_url_cleaned": row.get("source_url_cleaned", row.get("source_url", "")),
-        "date": row.get("date", ""),
-        "date_cleaned": row.get("date_cleaned", row.get("date", "")),
-        "company_seed": row.get("company_seed", ""),
+        "source_id":            row["source_id"],
+        "source_type":          row.get("source_type", ""),
+        "source_type_cleaned":  row.get("source_type_cleaned", row.get("source_type", "")),
+        "source_url":           row.get("source_url", ""),
+        "source_url_cleaned":   row.get("source_url_cleaned", row.get("source_url", "")),
+        "date":                 row.get("date", ""),
+        "date_cleaned":         row.get("date_cleaned", row.get("date", "")),
+        "company_seed":         row.get("company_seed", ""),
         "company_seed_cleaned": row.get("company_seed_cleaned", row.get("company_seed", "")),
-        "raw_text": row.get("raw_text", row.get("raw_text_cleaned", "")),
-        "raw_text_cleaned": row.get("raw_text_cleaned", ""),
+        "raw_text":             row.get("raw_text", row.get("raw_text_cleaned", "")),
+        "raw_text_cleaned":     row.get("raw_text_cleaned", ""),
     }
 
 
@@ -159,13 +223,15 @@ def extract_mentions(
         for ent in doc.ents:
             if ent.label_.upper() not in keep_labels:
                 continue
+            if not _is_valid_mention(ent.text):
+                continue
             records.append({
                 **meta,
-                "raw_mention": ent.text,
-                "entity_label": ent.label_,
-                "start_char": int(ent.start_char),
-                "end_char": int(ent.end_char),
-                "mention_source": "spacy_or_entityruler",
+                "raw_mention":        ent.text,
+                "entity_label":       ent.label_,
+                "start_char":         int(ent.start_char),
+                "end_char":           int(ent.end_char),
+                "mention_source":     "spacy_or_entityruler",
                 "mention_confidence": "",
             })
     return records
@@ -182,28 +248,25 @@ def dedupe_mentions(records: list[dict]) -> pd.DataFrame:
            .drop_duplicates(subset=["source_id", "start_char", "end_char", "_key"], keep="first")
            .drop(columns=["_key"])
     )
-    # Ensure all output columns exist even if no data arrived.
     for col in OUTPUT_COLUMNS:
         if col not in out.columns:
             out[col] = ""
     return out[OUTPUT_COLUMNS]
 
 
-# ─── CLI ──────────────────────────────────────────────────────────────────────
-
 def _parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="spaCy + EntityRuler NER.")
-    p.add_argument("--input", required=True, help="cleaned_input CSV from preprocess.py")
-    p.add_argument("--output", required=True, help="NER results CSV")
-    p.add_argument("--spacy-model", default="en_core_web_sm")
+    p.add_argument("--input",         required=True)
+    p.add_argument("--output",        required=True)
+    p.add_argument("--spacy-model",   default="en_core_web_sm")
     p.add_argument("--entity-labels", nargs="+", default=["ORG"])
-    p.add_argument("--batch-size", type=int, default=32)
+    p.add_argument("--batch-size",    type=int, default=32)
     return p.parse_args()
 
 
 def main() -> None:
     args = _parse_args()
-    input_path = Path(args.input)
+    input_path  = Path(args.input)
     output_path = Path(args.output)
 
     if not input_path.exists():
@@ -214,14 +277,12 @@ def main() -> None:
     if missing:
         raise ValueError(f"Missing required columns: {', '.join(sorted(missing))}")
 
-    # Fill optional columns so downstream schema is stable.
     for col in ["source_url", "date", "company_seed", "raw_text"]:
-        # df.setdefault(col, "")
         df[col] = df[col].fillna("")
     for derived, base in [
-        ("source_type_cleaned", "source_type"),
-        ("source_url_cleaned", "source_url"),
-        ("date_cleaned", "date"),
+        ("source_type_cleaned",  "source_type"),
+        ("source_url_cleaned",   "source_url"),
+        ("date_cleaned",         "date"),
         ("company_seed_cleaned", "company_seed"),
     ]:
         if derived not in df.columns:
