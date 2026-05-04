@@ -262,7 +262,8 @@ def resolve(df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
     df["evidence_note"] = df["canonical_group_id"].map(group_reason)
 
     resolved_cols = [
-        "source_id", "source_type", "source_url", "date", "company_seed",
+        "source_id", "source_type", "source_url", "source_url_cleaned",
+        "date", "company_seed", "company_seed_cleaned",
         "raw_text", "raw_mention", "entity_label", "start_char", "end_char",
         "normalized_name", "base_name", "legal_suffixes",
         "canonical_group_id", "canonical_name",

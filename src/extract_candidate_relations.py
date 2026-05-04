@@ -550,6 +550,19 @@ def main() -> None:
         raise FileNotFoundError(f"Input CSV not found: {input_path}")
 
     df = pd.read_csv(input_path)
+
+    print(f"[DIAG] Total rows in resolved CSV: {len(df)}")
+    print(f"[DIAG] Unique source_ids: {df['source_id'].nunique()}")
+    print(f"[DIAG] Unique canonical_names: {df['canonical_name'].nunique()}")
+    print(f"[DIAG] Source type breakdown:\n{df['source_type'].value_counts()}")
+    print(f"[DIAG] Sample canonical_names: {df['canonical_name'].dropna().unique()[:20]}")
+
+    # Check paragraph lengths
+    sec_df = df[df['source_type'].str.upper() == 'SEC']
+    if not sec_df.empty:
+        raw_lengths = sec_df.drop_duplicates('source_id')['raw_text'].str.len()
+        print(f"[DIAG] SEC raw_text lengths: min={raw_lengths.min()}, max={raw_lengths.max()}, median={raw_lengths.median():.0f}")
+        
     missing = REQUIRED_COLUMNS - set(df.columns)
     if missing:
         raise ValueError(f"Missing columns: {', '.join(sorted(missing))}")
@@ -572,7 +585,7 @@ def main() -> None:
         print("\nBy source_type:")
         print(raw_df["source_type"].value_counts())
         print("==================\n")
-        
+
     output_cols = [
         "source_id", "source_type", "source_url", "date",
         "entity_a", "entity_b", "candidate_relation",

@@ -86,6 +86,36 @@ _JUNK_PREFIXES: tuple[str, ...] = (
     "pursuant to",
 )
 
+# Multi-word spans that spaCy tags as ORG but are boilerplate, medical terms,
+# or document metadata — not companies. Checked in _is_valid_mention.
+_MULTIWORD_BLOCKLIST: frozenset[str] = frozenset({
+    "THE SECURITIES EXCHANGE ACT",
+    "SECURITIES EXCHANGE ACT",
+    "THE SECURITIES AND EXCHANGE COMMISSION",
+    "SECURITIES AND EXCHANGE COMMISSION",
+    "NEW YORK STOCK EXCHANGE",
+    "NASDAQ STOCK MARKET",
+    "COMMISSION FILE NUMBER",
+    "IRS EMPLOYER IDENTIFICATION NO",
+    "IRS EMPLOYER IDENTIFICATION NO.",
+    "ADDRESS OF PRINCIPAL EXECUTIVE OFFICES",
+    "PRINCIPAL EXECUTIVE OFFICES",
+    "FINANCIAL CONDITION",
+    "COMMON STOCK",
+    "BOARD OF DIRECTORS",
+    "AUDIT COMMITTEE",
+    "RHEUMATOID ARTHRITIS",
+    "CROHN",
+    "CARDIOVASCULAR SAFETY",
+    "BIOCHEMICALLY RECURRENT PROSTATE CANCER",
+    "THE TREATMENT OF CANCER CACHEXIA",
+    "SERUM GDF",
+    "THE CELECOXIB GROUP",
+    "CURRENT REPORT",
+    "ANNUAL REPORT",
+    "QUARTERLY REPORT",
+})
+
 _KNOWN_PHARMA_ABBREVS: Set[str] = {
     "BMS", "GSK", "JNJ", "AZ", "MSD", "MRK", "LLY", "PFE", "ABBV", "AMGN",
     "RHHBY", "NVS", "SNY", "AZN", "BMY",
@@ -139,6 +169,13 @@ def _is_valid_mention(text: str) -> bool:
     for prefix in _JUNK_PREFIXES:
         if lower.startswith(prefix):
             return False
+
+    # Check multi-word boilerplate blocklist.
+    if upper in _MULTIWORD_BLOCKLIST:
+        return False
+    # Partial match: if the mention contains any blocklisted phrase.
+    if any(blocked in upper for blocked in _MULTIWORD_BLOCKLIST):
+        return False
 
     tokens = s.split()
     if len(tokens) == 1 and _SOLO_CAPS_RE.match(upper):
@@ -219,9 +256,6 @@ def extract_mentions(
     texts = df["raw_text_cleaned"].fillna("").astype(str).tolist()
 
     for (_, row), doc in zip(df.iterrows(), nlp.pipe(texts, batch_size=batch_size)):
-        if not _is_valid_mention(ent.text):
-            print(f"[REJECTED] '{ent.text}'")
-            continue
         meta = _row_meta(row)
         for ent in doc.ents:
             if ent.label_.upper() not in keep_labels:
@@ -302,14 +336,6 @@ def main() -> None:
     nlp = _add_entity_ruler(nlp, df)
     keep_labels = {lbl.upper() for lbl in args.entity_labels}
     records = extract_mentions(df, nlp, keep_labels, args.batch_size)
-
-    print(f"\n=== NER DIAGNOSTIC ===")
-    print(f"Total mentions extracted: {len(records)}")
-    if records:
-        import collections
-        sample = collections.Counter(r["raw_mention"] for r in records)
-        print("Top 20 mentions:", sample.most_common(20))
-    print("======================\n")
 
     output_df = dedupe_mentions(records)
     output_path.parent.mkdir(parents=True, exist_ok=True)
