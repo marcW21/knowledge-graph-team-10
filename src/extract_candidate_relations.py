@@ -560,7 +560,19 @@ def main() -> None:
     )
 
     candidate_rows = build_candidate_rows(df)
-
+    
+    if candidate_rows:
+        raw_df = pd.DataFrame(candidate_rows)
+        print("\n=== DIAGNOSTIC ===")
+        print("Total pre-dedup candidates:", len(raw_df))
+        print("\nBy extraction_method:")
+        print(raw_df["extraction_method"].value_counts())
+        print("\nBy candidate_relation:")
+        print(raw_df["candidate_relation"].value_counts())
+        print("\nBy source_type:")
+        print(raw_df["source_type"].value_counts())
+        print("==================\n")
+        
     output_cols = [
         "source_id", "source_type", "source_url", "date",
         "entity_a", "entity_b", "candidate_relation",

@@ -219,6 +219,9 @@ def extract_mentions(
     texts = df["raw_text_cleaned"].fillna("").astype(str).tolist()
 
     for (_, row), doc in zip(df.iterrows(), nlp.pipe(texts, batch_size=batch_size)):
+        if not _is_valid_mention(ent.text):
+            print(f"[REJECTED] '{ent.text}'")
+            continue
         meta = _row_meta(row)
         for ent in doc.ents:
             if ent.label_.upper() not in keep_labels:
@@ -299,6 +302,14 @@ def main() -> None:
     nlp = _add_entity_ruler(nlp, df)
     keep_labels = {lbl.upper() for lbl in args.entity_labels}
     records = extract_mentions(df, nlp, keep_labels, args.batch_size)
+
+    print(f"\n=== NER DIAGNOSTIC ===")
+    print(f"Total mentions extracted: {len(records)}")
+    if records:
+        import collections
+        sample = collections.Counter(r["raw_mention"] for r in records)
+        print("Top 20 mentions:", sample.most_common(20))
+    print("======================\n")
 
     output_df = dedupe_mentions(records)
     output_path.parent.mkdir(parents=True, exist_ok=True)
